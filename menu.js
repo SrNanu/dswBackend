@@ -251,8 +251,5 @@ function mostrarObrasSociales(){
 }
 // Función para continuar con la siguiente acción después de agregar la especialidad
 function continuar() {
-    // Aquí puedes poner la lógica para el siguiente paso después de agregar la especialidad
-    //console.log("Puedes realizar otra acción aquí...");
-    // Llamar a ingresarDatosMedico después de agregar la especialidad
     showMenu();
 }
