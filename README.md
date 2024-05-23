@@ -7,7 +7,9 @@ Integrantes:
   <li>Cataldi Santino</li>
   <li>Cosentino Lucio</li>
   <li>Fiele Juan Ignacio</li>
-  <li>Malizani Juan Pablo</li>
+  <li>Malizani Juan Pablo
+  </li>
+  
 
 Profesor: Adrian Meca
 </body>
