@@ -21,6 +21,12 @@ Content-Type: application/json
 {
     "name": "PAMI"
 }
+### MODIFICAR OBRA SOCIAL (PATCH - recurso parcial)
+PATCH http://localhost:3000/api/HealthInsurances/1
+Content-Type: application/json
 
+{
+  "name": "PAMI"
+}
 ### BORRAR UNA OBRA SOCIAL
 DELETE http://localhost:3000/api/HealthInsurances/1

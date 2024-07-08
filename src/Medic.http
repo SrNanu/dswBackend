@@ -24,5 +24,13 @@ Content-Type: application/json
     "name": "Jack"
 }
 
+### MODIFICAREMOS UN MEDICO PARCIALMENTE (PATCH - recurso parcial)
+PATCH  http://localhost:3000/api/Medics/525425
+Content-Type: application/json
+
+{
+    "name": "Lucho"
+}
+
 ### BORRAR UN MEDICO
 DELETE http://localhost:3000/api/Medics/525425

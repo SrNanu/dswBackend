@@ -31,7 +31,12 @@ function sanitizeHealthInsuranceInput(req: Request, res: Response, next: NextFun
     } 
 
     //validar info traida (validar info maliciosa, tipo de dato, etc...)
-
+     //Validamos que los campos no sean undefined ( para el patch)
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+        if (req.body.sanitizedInput[key] === undefined) {
+          delete req.body.sanitizedInput[key]
+        }
+      })
     next()
 }
 
@@ -44,7 +49,7 @@ app.get('/api/HealthInsurances/:code', (req, res) => {
     const aHealthInsurance = HealthInsurances.find( (HealthInsurance) => HealthInsurance.code === Number(req.params.code) )
     
     if(!aHealthInsurance){
-        res.status(404).send({message: 'Health Insurance not found'})
+        return res.status(404).send({message: 'Health Insurance not found'})
     }
     res.json(aHealthInsurance)
 })
@@ -57,7 +62,7 @@ app.post('/api/HealthInsurances', (req, res) => {
 
     HealthInsurances.push(aNewHealthInsurance)
 
-    res.status(201).send({message: 'Health Insurance created succesfully', data: aNewHealthInsurance})
+    return res.status(201).send({message: 'Health Insurance created succesfully', data: aNewHealthInsurance})
 })
 
 
@@ -65,7 +70,23 @@ app.put('/api/HealthInsurances/:code', sanitizeHealthInsuranceInput, (req, res) 
     const HealthInsuranceIdx = HealthInsurances.findIndex((HealthInsurance) => HealthInsurance.code === Number(req.params.code))
 
     if(HealthInsuranceIdx === -1){
-        res.status(404).send({ message: 'Health Insurance not found' })
+        return res.status(404).send({ message: 'Health Insurance not found' })
+    }
+
+    const {name} = req.body.sanitizedInput
+
+    HealthInsurances[HealthInsuranceIdx] = { ...HealthInsurances[HealthInsuranceIdx], ...req.body.sanitizedInput}
+    //Otra forma de hacerlo...
+    //Object.assign(HealthInsurances[HealthInsuranceIdx], req.body.sanitizedInput)
+
+    res.status(200).send({ message:'Health Insurance updated succesfully', data: HealthInsurances[HealthInsuranceIdx]})
+})
+
+app.patch('/api/HealthInsurances/:code', sanitizeHealthInsuranceInput, (req, res) => {
+    const HealthInsuranceIdx = HealthInsurances.findIndex((HealthInsurance) => HealthInsurance.code === Number(req.params.code))
+
+    if(HealthInsuranceIdx === -1){
+        return res.status(404).send({ message: 'Health Insurance not found' })
     }
 
     const {name} = req.body.sanitizedInput
@@ -74,7 +95,6 @@ app.put('/api/HealthInsurances/:code', sanitizeHealthInsuranceInput, (req, res) 
 
     res.status(200).send({ message:'Health Insurance updated succesfully', data: HealthInsurances[HealthInsuranceIdx]})
 })
-
 
 app.delete('/api/HealthInsurances/:code', (req, res) => {
     const HealthInsuranceIdx = HealthInsurances.findIndex((HealthInsurance) => HealthInsurance.code === Number(req.params.code))
@@ -100,6 +120,12 @@ function sanitizeMedicInput(req: Request, res: Response, next: NextFunction){
     } 
 
     //validar info traida (validar info maliciosa, tipo de dato, etc...)
+     //Validamos que los campos no sean undefined ( para el patch)
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+        if (req.body.sanitizedInput[key] === undefined) {
+          delete req.body.sanitizedInput[key]
+        }
+      })
 
     next()
 }
@@ -113,7 +139,7 @@ app.get('/api/Medics/:dni', (req, res) => {
     const aMedic = Medics.find( (Medic) => Medic.dni === Number(req.params.dni) )
     
     if(!aMedic){
-        res.status(404).send({message: 'Medic not found'})
+        return res.status(404).send({message: 'Medic not found'})
     }
     res.json(aMedic)
 })
@@ -143,7 +169,19 @@ app.put('/api/Medics/:dni', sanitizeMedicInput, (req, res) => {
 
     res.status(200).send({ message:'Medic updated succesfully', data: Medics[MedicIdx]})
 })
+app.patch('/api/Medics/:dni', sanitizeMedicInput, (req, res) => {
+    const MedicIdx = Medics.findIndex((Medic) => Medic.dni === Number(req.params.dni))
 
+    if(MedicIdx === -1){
+        res.status(404).send({ message: 'Medic not found' })
+    }
+
+    const {name, surname, dni, license} = req.body.sanitizedInput
+
+    Medics[MedicIdx] = { ...Medics[MedicIdx], ...req.body.sanitizedInput}
+
+    res.status(200).send({ message:'Medic updated succesfully', data: Medics[MedicIdx]})
+})
 
 app.delete('/api/Medics/:dni', (req, res) => {
     const MedicIdx = Medics.findIndex((Medic) => Medic.dni === Number(req.params.dni))
@@ -156,7 +194,10 @@ app.delete('/api/Medics/:dni', (req, res) => {
     }
 })
 
-
+app.use((_, res) => {
+    return res.status(404).send({ message: 'Resource not found' })
+  })
+  
 
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000/")
