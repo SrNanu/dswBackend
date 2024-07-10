@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import { HealthInsurance } from './HealthInsurance.js'
 import { Medic } from './Medic.js'
+import { MedicRepository } from './Medic/medic.repository.js'
 
 const app = express()
 
@@ -13,14 +14,8 @@ const HealthInsurances = [
     ),
 ]
 
-const Medics = [
-    new Medic(
-        'John',
-        'Doe',
-        525425,
-        451235132,
-    ),
-]
+const repository = new MedicRepository()
+
 
 //rutas de obras sociales
 
@@ -131,13 +126,12 @@ function sanitizeMedicInput(req: Request, res: Response, next: NextFunction){
 }
 
 app.get('/api/Medics', (req, res) => {
-    res.json(Medics)
+    res.json({data: repository.findAll()})
 })
 
 
 app.get('/api/Medics/:dni', (req, res) => {
-    const aMedic = Medics.find( (Medic) => Medic.dni === Number(req.params.dni) )
-    
+    const aMedic = repository.findOne({id: req.params.dni})
     if(!aMedic){
         return res.status(404).send({message: 'Medic not found'})
     }
@@ -145,51 +139,50 @@ app.get('/api/Medics/:dni', (req, res) => {
 })
 
 
-app.post('/api/Medics', (req, res) => {
-    const {name, surname, dni, license} = req.body
+app.post('/api/Medics',sanitizeMedicInput, (req, res) => {
+    const input = req.body.sanitizedInput
 
-    const aNewMedic = new Medic( name, surname, dni, license )
+    const aNewMedicInput = new Medic( 
+        input.name, 
+        input.surname, 
+        input.dni, 
+        input.license 
+    )
 
-    Medics.push(aNewMedic)
-
+    const aNewMedic = repository.add(aNewMedicInput)
     res.status(201).send({message: 'Medic created succesfully', data: aNewMedic})
 })
 
 
 app.put('/api/Medics/:dni', sanitizeMedicInput, (req, res) => {
-    const MedicIdx = Medics.findIndex((Medic) => Medic.dni === Number(req.params.dni))
+    req.body.sanitizedInput.dni = Number(req.params.dni)
+    const medic = repository.update(req.body.sanitizedInput)
 
-    if(MedicIdx === -1){
+    if(!medic){
         res.status(404).send({ message: 'Medic not found' })
     }
-
-    const {name, surname, dni, license} = req.body.sanitizedInput
-
-    Medics[MedicIdx] = { ...Medics[MedicIdx], ...req.body.sanitizedInput}
-
-    res.status(200).send({ message:'Medic updated succesfully', data: Medics[MedicIdx]})
+    
+    res.status(200).send({ message:'Medic updated succesfully', data: medic})
 })
-app.patch('/api/Medics/:dni', sanitizeMedicInput, (req, res) => {
-    const MedicIdx = Medics.findIndex((Medic) => Medic.dni === Number(req.params.dni))
 
-    if(MedicIdx === -1){
+app.patch('/api/Medics/:dni', sanitizeMedicInput, (req, res) => {
+    req.body.sanitizedInput.dni = Number(req.params.dni)
+    const medic = repository.update(req.body.sanitizedInput)
+
+    if(!medic){
         res.status(404).send({ message: 'Medic not found' })
     }
-
-    const {name, surname, dni, license} = req.body.sanitizedInput
-
-    Medics[MedicIdx] = { ...Medics[MedicIdx], ...req.body.sanitizedInput}
-
-    res.status(200).send({ message:'Medic updated succesfully', data: Medics[MedicIdx]})
+    
+    res.status(200).send({ message:'Medic updated succesfully', data: medic})
 })
 
 app.delete('/api/Medics/:dni', (req, res) => {
-    const MedicIdx = Medics.findIndex((Medic) => Medic.dni === Number(req.params.dni))
+    const id = req.params.dni
+    const medic = repository.delete({id})
 
-    if(MedicIdx === -1){
+    if(!medic){
         res.status(404).send({message: 'Medic not found'})
     }else{
-        Medics.splice(MedicIdx, 1)
         res.status(200).send({message: 'Medic deleted succesfully'})
     }
 })
