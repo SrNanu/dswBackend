@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express'
-import { HealthInsurance } from './HealthInsurance.js'
+import { HealthInsurance } from './HealthInsurance/healthinsurance.entity.js'
 import { medicRouter } from './Medic/medic.routers.js'
 
 const app = express()
