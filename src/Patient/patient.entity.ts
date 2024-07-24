@@ -1,4 +1,4 @@
-import { Cascade, Entity, ManyToOne, Property, Collection, DateType, Rel } from "@mikro-orm/core";
+import { Cascade, Entity, ManyToOne, Property, Collection, DateType, Rel, DateTimeType } from "@mikro-orm/core";
 import { BaseEntity } from "../shared/baseEntity.entity.js";
 import { HealthInsurance } from "./healthinsurance.entity.js";
 
@@ -23,8 +23,8 @@ export class Patient extends BaseEntity {
     @Property({nullable: false})
     email!: string
 
-    @Property({nullable: false})
-    birthDate!: DateType
+    @Property({ type: DateTimeType, nullable: false })
+    birthDate!: Date;
 
     @ManyToOne(() => HealthInsurance, {nullable: true})
     healthInsurance?: Rel<HealthInsurance>
