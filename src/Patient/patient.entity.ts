@@ -23,7 +23,7 @@ export class Patient extends BaseEntity {
     @Property({nullable: false})
     email!: string
 
-    @Property({ type: DateTimeType, nullable: false })
+    @Property({ type: 'date', nullable: false })
     birthDate!: Date;
 
     @ManyToOne(() => HealthInsurance, {nullable: true})
