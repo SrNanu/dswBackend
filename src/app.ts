@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import express, { NextFunction, Request, Response } from 'express'
-import { MedicRouter } from './Medic/medic.routers.js'
+import { MedicRouter } from './Medic--is still in development/medic.routers.js'
 import { HealthInsuranceRouter } from './Patient/healthinsurance.routes.js'
 import { orm, syncSchema } from './shared/orm.js'
 import { RequestContext } from '@mikro-orm/core'

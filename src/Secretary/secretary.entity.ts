@@ -1,4 +1,4 @@
-import { Entity, Property, PrimaryKey } from "@mikro-orm/core";
+import { Entity, Property } from "@mikro-orm/core";
 import { BaseEntity } from "../shared/baseEntity.entity.js";
 
 
@@ -6,7 +6,7 @@ import { BaseEntity } from "../shared/baseEntity.entity.js";
 export class Secretary extends BaseEntity {
 
   @Property({ nullable: false })
-  dni!: number
+  dni!: string
 
   @Property({ nullable: false })
   firstname!: string

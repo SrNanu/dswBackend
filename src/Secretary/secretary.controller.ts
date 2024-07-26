@@ -29,7 +29,7 @@ async function add(req: Request, res: Response) {
   try {
     const secretary = em.create(Secretary, req.body)
     await em.flush()
-    res.status(201).json({ message: 'Secretary created', data: Secretary })
+    res.status(201).json({ message: 'Secretary created', data: secretary })
   }
   catch (error: any) {
     res.status(500).json({ message: error.message })
@@ -42,7 +42,7 @@ async function update(req: Request, res: Response) {
     const secretary = em.getReference(Secretary, id)
     em.assign(secretary, req.body)
     await em.flush()
-    res.status(200).json({ message: 'Secretary updated' })
+    res.status(200).json({ message: 'Secretary updated', data: secretary })
   }
   catch (error: any) {
     res.status(500).json({ message: error.message })
@@ -54,7 +54,7 @@ async function remove(req: Request, res: Response) {
     const id = Number.parseInt(req.params.id)
     const secretary = em.getReference(Secretary, id)
     await em.removeAndFlush(secretary)
-    res.status(200).json({ message: 'Secretary deleted' })
+    res.status(200).json({ message: 'Secretary deleted', data: secretary })
   }
   catch (error: any) {
     res.status(500).json({ message: error.message })
