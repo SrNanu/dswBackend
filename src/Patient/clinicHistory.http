@@ -1,0 +1,43 @@
+
+###OBTENER TODAS LAS HISTORIAS CLINICAS
+GET http://localhost:3000/api/ClinicHistorys
+
+
+
+###CREAR UNA NUEVA HISTORIA CLINICA
+# @name createClinicHistory
+POST http://localhost:3000/api/ClinicHistorys
+Content-Type: application/json
+
+{
+    "grupoSanguineo": "A+",
+    "antecedentesPersonales": "Enfermedades Crónicas: Hipertensión arterial",
+    "antecedentesFamiliares": "Padre: Edad: 70 años. .",
+    "patient": [12]
+}
+
+### OBTENER ID
+@id = {{createClinicHistory.response.body.data.id}}
+
+###OBTENER UNA HISTORIA CLINICA
+GET http://localhost:3000/api/ClinicHistorys/{{id}}
+
+### MODIFICAREMOS UNA HISTORIA CLINICA 
+PUT http://localhost:3000/api/ClinicHistorys/{{id}}
+Content-Type: application/json
+
+{   
+    "grupoSanguineo": "B+",
+    "antecedentesPersonales": "No tiene",
+    "antecedentesFamiliares": "No tiene",
+    "patient": [12]
+}
+### MODIFICAR HISTORIA CLINICA (PATCH - recurso parcial)
+PATCH http://localhost:3000/api/ClinicHistorys/{{id}}
+Content-Type: application/json
+
+{
+    "antecedentesPersonales": "Enfermedades Crónicas..."
+}
+### BORRAR UNA HISTORIA CLINICA
+DELETE http://localhost:3000/api/ClinicHistorys/{{id}}

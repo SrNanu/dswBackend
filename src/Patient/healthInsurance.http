@@ -8,7 +8,7 @@ POST http://localhost:3000/api/HealthInsurances
 Content-Type: application/json
 
 {
-    "name": "Sancor"
+    "name": "Sancorr"
 }
 
 ### OBTENER ID
@@ -23,14 +23,14 @@ PUT http://localhost:3000/api/HealthInsurances/{{id}}
 Content-Type: application/json
 
 {
-    "name": "PAMI"
+    "name": "PAMIia"
 }
 ### MODIFICAR OBRA SOCIAL (PATCH - recurso parcial)
 PATCH http://localhost:3000/api/HealthInsurances/{{id}}
 Content-Type: application/json
 
 {
-  "name": "PAMII"
+  "name": "PAMIIA"
 }
 ### BORRAR UNA OBRA SOCIAL
 DELETE http://localhost:3000/api/HealthInsurances/{{id}}
