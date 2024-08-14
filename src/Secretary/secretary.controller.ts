@@ -8,7 +8,7 @@ em.getRepository(Secretary)
 async function findAll(req: Request, res: Response) {
   try {
     const secretaries = await em.find(Secretary, {})
-    res.json({ message: 'Finded all secretaries classes', data: secretaries })
+    res.json({  data: secretaries })
   }
   catch (error: any) {
     res.status(500).json({ message: error.message })

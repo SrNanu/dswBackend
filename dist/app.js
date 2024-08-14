@@ -7,8 +7,11 @@ import { RequestContext } from '@mikro-orm/core';
 import { PatientRouter } from './Patient/patient.routes.js';
 import { SecretaryRouter } from './Secretary/secretary.routes.js';
 import { clinicHistoryRouter } from './Patient/clinicHistory.routes.js';
+import cors from 'cors';
 const app = express();
 app.use(express.json());
+//Cors
+app.use(cors());
 //luego de los middelewares base (express, express json)
 app.use((req, res, next) => {
     RequestContext.create(orm.em, next);

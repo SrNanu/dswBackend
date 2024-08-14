@@ -15,9 +15,17 @@ export class Secretary extends BaseEntity {
   lastname!: string
 
   @Property({ nullable: false })
+  Mail!: string
+
+  @Property({ nullable: false })
+  DniType!: string
+
+  @Property({ nullable: false })
   Username!: string
 
   @Property({ nullable: false })
   Password!: string
 
+  @Property({ nullable: true })
+  BornDate!: Date
 }
