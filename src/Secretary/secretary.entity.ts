@@ -20,10 +20,10 @@ export class Secretary extends BaseEntity {
   @Property({ nullable: false })
   DniType!: string
 
-  @Property({ nullable: false })
+  @Property({ nullable: true })
   Username!: string
 
-  @Property({ nullable: false })
+  @Property({ nullable: true })
   Password!: string
 
   @Property({ nullable: true })
