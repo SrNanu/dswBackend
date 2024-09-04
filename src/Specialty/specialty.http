@@ -23,7 +23,7 @@ Content-Type: application/json
 
 {
   "code": "12345698",
-  "name": "Clinico",
+  "name": "Clinico"
 }
 
 ### Actualizar una Specialty (parcial)
@@ -31,7 +31,7 @@ PATCH http://localhost:3000/api/Specialties/{{id}}
 Content-Type: application/json
 
 {
-  "name": "Clinico General",
+  "name": "Clinico General"
 }
 
 ### Eliminar un Secretario

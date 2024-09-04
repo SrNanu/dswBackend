@@ -39,8 +39,8 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     try {
         const id = Number.parseInt(req.params.id)
-        const medic = em.getReference(Medic, id)
-        em.assign(Medic, req.body)
+        const medic = await em.getReference(Medic, id)
+        em.assign(medic, req.body)
         await em.flush()
         res.status(200).json({ message: 'Medic updated', data: medic })
     }

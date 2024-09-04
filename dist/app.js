@@ -8,6 +8,7 @@ import { PatientRouter } from './Patient/patient.routes.js';
 import { SecretaryRouter } from './Secretary/secretary.routes.js';
 import { clinicHistoryRouter } from './Patient/clinicHistory.routes.js';
 import cors from 'cors';
+import { SpecialtyRouter } from './Specialty/specialty.routes.js';
 const app = express();
 app.use(express.json());
 //Cors
@@ -23,6 +24,7 @@ app.use('/api/Medics', MedicRouter);
 app.use('/api/Patients', PatientRouter);
 app.use('/api/Secretaries', SecretaryRouter);
 app.use('/api/ClinicHistorys', clinicHistoryRouter);
+app.use('/api/Specialties', SpecialtyRouter);
 //middleware de errores
 app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' });

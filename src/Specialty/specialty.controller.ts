@@ -39,7 +39,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id)
-    const specialty = em.getReference(Specialty, id)
+    const specialty = await em.getReference(Specialty, id)
     em.assign(specialty, req.body)
     await em.flush()
     res.status(200).json({ message: 'Specialty updated', data: specialty })
