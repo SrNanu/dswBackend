@@ -1,0 +1,53 @@
+
+###OBTENER TODOS LOS MEDICOS
+GET http://localhost:3000/api/Medics
+
+###crear un NUEVO MEDICO
+# @name createmedic
+POST http://localhost:3000/api/Medics
+Content-Type: application/json
+
+{
+    "dni": "123451",
+    "DniType": "DNI",
+    "firstname": "Jane",
+    "lastname": "Doe",
+    "Username": "JaneDoe",
+    "Password": "123456",
+    "MedicalConsultationValue": 10,
+    "Specialty": [1],
+    "license": 258413213
+}
+
+### ID obtenido de la respuesta de creación
+@id = {{createmedic.response.body.data.id}}
+
+###OBTENER UN MEDICO
+GET http://localhost:3000/api/Medics/{{id}}
+
+### MODIFICAREMOS UN MEDICO 
+PUT http://localhost:3000/api/Medics/{{id}}
+Content-Type: application/json
+
+{
+    "dni": "123451",
+    "DniType": "DNI",
+    "firstname": "Jane",
+    "lastname": "Doe",
+    "Username": "JaneDoe",
+    "Password": "123456",
+    "MedicalConsultationValue": 10,
+    "Specialty": [1],
+    "license": 258413213
+}
+
+### MODIFICAREMOS UN MEDICO PARCIALMENTE (PATCH - recurso parcial)
+PATCH  http://localhost:3000/api/Medics/{{id}}
+Content-Type: application/json
+
+{
+    "firstname": "Lucho"
+}
+
+### BORRAR UN MEDICO
+DELETE http://localhost:3000/api/Medics/{{id}}

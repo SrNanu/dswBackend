@@ -1,0 +1,38 @@
+### Crear una nueva Specialty
+# @name createSpecialty
+POST http://localhost:3000/api/Specialties
+Content-Type: application/json
+
+{
+  "code": "12345698",
+  "name": "General"
+}
+
+### Obtener todas las Specialties
+GET http://localhost:3000/api/Specialties
+
+### ID obtenido de la respuesta de creación
+@id = {{createSpecialty.response.body.data.id}}
+
+### Obtener una Specialty por ID
+GET http://localhost:3000/api/Specialties/{{id}}
+
+### Actualizar una Specialty (completo)
+PUT http://localhost:3000/api/Specialties/{{id}}
+Content-Type: application/json
+
+{
+  "code": "12345698",
+  "name": "Clinico",
+}
+
+### Actualizar una Specialty (parcial)
+PATCH http://localhost:3000/api/Specialties/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Clinico General",
+}
+
+### Eliminar un Secretario
+DELETE http://localhost:3000/api/Specialties/{{id}}
