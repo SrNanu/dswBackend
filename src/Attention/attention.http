@@ -1,0 +1,64 @@
+
+###OBTENER TODOS LOS PACIENTES
+GET http://localhost:3000/api/attention
+
+
+###crear un paciente
+# @name createAttention
+POST http://localhost:3000/api/attention
+Content-Type: application/json
+
+{
+  "date": "2023-09-07T14:30:00",
+  "paymentDate": "2023-09-07T15:00:00",
+  "result": "Consulta satisfactoria",
+  "reason": "Dolor de cabeza persistente",
+  "currentIllness": "Migraña crónica",
+  "vitalSigns": "Presión arterial: 120/80, Pulso: 72",
+  "physicalExamination": "Examen neurológico sin hallazgos relevantes",
+  "diagnosis": "Migraña",
+  "treatment": "Ibuprofeno 400mg cada 8 horas",
+  "observation": "Recomendación de evitar luces brillantes y estrés",
+  "dateCancelled": null,
+  "consultationHours": [2],
+  "patient": [5]
+}
+
+
+### OBTENER ID
+@id = {{createAttention.response.body.data.id}}
+
+###OBTENER UN patient
+GET http://localhost:3000/api/attention/{{id}}
+
+
+### MODIFICAREMOS UN PACIENTE (PUT - recurso completo) 
+PUT http://localhost:3000/api/attention/{{id}}
+Content-Type: application/json
+
+{
+  "date": "2023-09-07T14:30:00",
+  "paymentDate": "2023-09-07T15:00:00",
+  "result": "Consulta mal",
+  "reason": "Dolor de cabeza frecuente",
+  "currentIllness": "La enfermedad del mono",
+  "vitalSigns": "Presión arterial: 120/80, Pulso: 72",
+  "physicalExamination": "Examen neurológico sin hallazgos relevantes",
+  "diagnosis": "Migraña",
+  "treatment": "Ibuprofeno 400mg cada 8 horas",
+  "observation": "Recomendación de evitar luces brillantes y estrés",
+  "dateCancelled": null,
+  "consultationHours": [2],
+  "patient": [5]
+}
+### MODIFICAR PACIENTE (PATCH - recurso parcial)
+PATCH http://localhost:3000/api/attention/{{id}}
+Content-Type: application/json
+
+{
+   "result": "nashee",
+   "reason": "irritacion en la piek"
+}
+
+### BORRAR UN PACIENTE
+DELETE http://localhost:3000/api/attention/{{id}}

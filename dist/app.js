@@ -10,6 +10,7 @@ import { clinicHistoryRouter } from './Patient/clinicHistory.routes.js';
 import cors from 'cors';
 import { SpecialtyRouter } from './Specialty/specialty.routes.js';
 import { ConsultationHoursRouter } from './Medic/consultationHours.routes.js';
+import { AttentionRoutes } from './Attention/attention.routes.js';
 const app = express();
 app.use(express.json());
 //Cors
@@ -27,6 +28,7 @@ app.use('/api/Secretaries', SecretaryRouter);
 app.use('/api/ClinicHistorys', clinicHistoryRouter);
 app.use('/api/Specialties', SpecialtyRouter);
 app.use('/api/consultationhours', ConsultationHoursRouter);
+app.use('/api/attention', AttentionRoutes);
 //middleware de errores
 app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' });
