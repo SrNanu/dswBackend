@@ -9,6 +9,7 @@ import { SecretaryRouter } from './Secretary/secretary.routes.js'
 import { clinicHistoryRouter } from './Patient/clinicHistory.routes.js'
 import cors from 'cors'
 import { SpecialtyRouter } from './Specialty/specialty.routes.js'
+import { ConsultationHoursRouter } from './Medic/consultationHours.routes.js'
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use('/api/Patients', PatientRouter)
 app.use('/api/Secretaries', SecretaryRouter)
 app.use('/api/ClinicHistorys', clinicHistoryRouter)
 app.use('/api/Specialties',SpecialtyRouter)
+app.use('/api/consultationhours', ConsultationHoursRouter)
 
 //middleware de errores
 app.use((_, res) => {

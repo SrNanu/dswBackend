@@ -1,0 +1,42 @@
+
+###OBTENER TODAS LAS OBRAS SOCIALES
+GET http://localhost:3000/api/consultationhours
+
+###crear una nueva obra social
+# @name createConsultationHours
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+
+{
+    "day": "wednesday",
+    "startTime": "10:00",
+    "endTime": "10:30",
+    "medic": [1]
+}
+
+### OBTENER ID
+@id = {{createConsultationHours.response.body.data.id}}
+
+###OBTENER UNA OBRA SOCIAL
+GET http://localhost:3000/api/consultationhours/{{id}}
+
+
+### MODIFICAREMOS UNA OBRA SOCIAL 
+PUT http://localhost:3000/api/consultationhours/{{id}}
+Content-Type: application/json
+
+{
+    "day": "friday",
+    "startTime": "11:00",
+    "endTime": "11:30",
+    "medic": [1]
+}
+### MODIFICAR OBRA SOCIAL (PATCH - recurso parcial)
+PATCH http://localhost:3000/api/consultationhours/{{id}}
+Content-Type: application/json
+
+{
+  "day": "monday"
+}
+### BORRAR UNA OBRA SOCIAL
+DELETE http://localhost:3000/api/consultationhours/{{id}}
