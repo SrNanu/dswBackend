@@ -9,13 +9,13 @@ Content-Type: application/json
 
 {
     "dni": "123451",
-    "DniType": "DNI",
+    "dniType": "DNI",
     "firstname": "Jane",
     "lastname": "Doe",
-    "Username": "JaneDoe",
-    "Password": "123456",
-    "MedicalConsultationValue": 10,
-    "Specialty": [1],
+    "username": "JaneDoe",
+    "password": "123456",
+    "medicalConsultationValue": 10,
+    "specialty": [1],
     "license": 258413213
 }
 
@@ -31,13 +31,13 @@ Content-Type: application/json
 
 {
     "dni": "123451",
-    "DniType": "DNI",
+    "dniType": "DNI",
     "firstname": "Jane",
     "lastname": "Doe",
-    "Username": "JaneDoe",
-    "Password": "123456",
-    "MedicalConsultationValue": 10,
-    "Specialty": [1],
+    "username": "JaneDoe",
+    "password": "123456",
+    "medicalConsultationValue": 10,
+    "specialty": [1],
     "license": 258413213
 }
 

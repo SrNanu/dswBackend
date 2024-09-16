@@ -16,16 +16,16 @@ export class Medic extends BaseEntity {
     lastname!: string
 
     @Property({ nullable: false })
-    DniType!: string
+    dniType!: string
 
     @Property({ nullable: true })
-    Username!: string
+    username!: string
 
     @Property({ nullable: true })
-    Password!: string
+    password!: string
 
     @Property({ nullable: true })
-    MedicalConsultationValue!: number
+    medicalConsultationValue!: number
 
     @Property({ nullable: true })
     license!: number
