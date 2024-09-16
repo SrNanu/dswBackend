@@ -15,6 +15,9 @@ Content-Type: application/json
     "email": "john@john.com",
     "address": "Calle Falsa 123",
     "birthDate": "1990-01-01",
+    "grupoSanguineo": "A+",
+    "antecedentesPersonales":"Taquicardia" ,
+    "antecedentesFamiliares":"Infartos" ,
     "healthInsurance": [1]
 }
 
@@ -37,6 +40,9 @@ Content-Type: application/json
     "email": "kobe@kobe.com",
     "address": "Calle Falsa 124",
     "birthDate": "1999-01-01",
+    "grupoSanguineo": "A+",
+    "antecedentesPersonales":"Taquicardia" ,
+    "antecedentesFamiliares":"Infartos" ,
     "HealthInsurance": [1]
 }
 ### MODIFICAR PACIENTE (PATCH - recurso parcial)

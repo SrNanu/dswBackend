@@ -6,7 +6,6 @@ import { orm, syncSchema } from './shared/orm.js'
 import { RequestContext } from '@mikro-orm/core'
 import { PatientRouter } from './Patient/patient.routes.js'
 import { SecretaryRouter } from './Secretary/secretary.routes.js'
-import { clinicHistoryRouter } from './Patient/clinicHistory.routes.js'
 import cors from 'cors'
 import { SpecialtyRouter } from './Specialty/specialty.routes.js'
 import { ConsultationHoursRouter } from './Medic/consultationHours.routes.js'
@@ -25,11 +24,9 @@ app.use((req, res, next) => {
 //antes de middlewares de negocio
 
 //routers
-app.use('/api/HealthInsurances', HealthInsuranceRouter)
 app.use('/api/Medics', MedicRouter)
 app.use('/api/Patients', PatientRouter)
 app.use('/api/Secretaries', SecretaryRouter)
-app.use('/api/ClinicHistorys', clinicHistoryRouter)
 app.use('/api/Specialties',SpecialtyRouter)
 app.use('/api/consultationhours', ConsultationHoursRouter)
 app.use('/api/attention', AttentionRoutes)
