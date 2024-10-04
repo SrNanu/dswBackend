@@ -30,6 +30,7 @@ app.use('/api/Secretaries', SecretaryRouter)
 app.use('/api/Specialties',SpecialtyRouter)
 app.use('/api/consultationhours', ConsultationHoursRouter)
 app.use('/api/attention', AttentionRoutes)
+app.use('/api/HealthInsurances', HealthInsuranceRouter)
 
 
 //middleware de errores

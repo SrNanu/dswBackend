@@ -1,6 +1,4 @@
 
-###OBTENER TODAS LAS OBRAS SOCIALES
-GET http://localhost:3000/api/HealthInsurances
 
 ###crear una nueva obra social
 # @name createHealthInsurance
@@ -11,8 +9,12 @@ Content-Type: application/json
     "name": "Sancorr"
 }
 
+###OBTENER TODAS LAS OBRAS SOCIALES
+GET http://localhost:3000/api/HealthInsurances
+
+
 ### OBTENER ID
-@id = {{createHealthInsurance.response.body.data.id}}
+@id = {{createHealthInsurance.response.body.id}}
 
 ###OBTENER UNA OBRA SOCIAL
 GET http://localhost:3000/api/HealthInsurances/{{id}}
