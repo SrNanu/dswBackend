@@ -13,7 +13,7 @@ export class ConsultationHours extends BaseEntity {
     @Property({nullable: false, type: 'time'})
     endTime!: string
     
-    @ManyToOne(() =>Medic, {nullable: true})
+    @ManyToOne(() => Medic, { nullable: true, eager: true })
     medic!: Rel<Medic>;
  
 }
