@@ -15,9 +15,9 @@ Content-Type: application/json
     "email": "john@john.com",
     "address": "Calle Falsa 123",
     "birthDate": "1990-01-01",
-    "grupoSanguineo": "A+",
-    "antecedentesPersonales":"Taquicardia" ,
-    "antecedentesFamiliares":"Infartos" ,
+    //"grupoSanguineo": "A+",
+    //"antecedentesPersonales":"Taquicardia" ,
+    //"antecedentesFamiliares":"Infartos" ,
     "healthInsurance": [1]
 }
 

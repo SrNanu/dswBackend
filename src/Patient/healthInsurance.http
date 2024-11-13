@@ -6,7 +6,7 @@ POST http://localhost:3000/api/HealthInsurances
 Content-Type: application/json
 
 {
-    "name": "Sancorr"
+    "name": "Sancor"
 }
 
 ###OBTENER TODAS LAS OBRAS SOCIALES

@@ -63,4 +63,23 @@ async function remove(req: Request, res: Response) {
     }
 }
 
-export {findAll, findOne, add, update, remove}
+
+async function findAllByID(req: Request, res: Response) {
+    try {
+        const patientId = Number.parseInt(req.params.patientId);  // Assuming patient ID is passed in the URL
+
+        // Fetch attentions for the specific patient
+        const attentions = await em.find(Attention, { patient: patientId }, { populate: ['patient'] });
+
+        if (!attentions.length) {
+            return res.status(404).json({ message: "No attentions found for this patient." });
+        }
+
+        res.status(200).json({ message: "Found all attentions for patient", data: attentions });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+export {findAll, findOne, add, update, remove, findAllByID}

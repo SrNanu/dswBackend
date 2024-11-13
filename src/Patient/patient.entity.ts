@@ -26,13 +26,13 @@ export class Patient extends BaseEntity {
     @Property({ type: 'date', nullable: false })
     birthDate!: Date;
 
-    @Property({nullable: false})
+    @Property({nullable: true})
     grupoSanguineo!: string
     
-    @Property({nullable: false})
+    @Property({nullable: true})
     antecedentesPersonales!: string
 
-    @Property({nullable: false})
+    @Property({nullable: true})
     antecedentesFamiliares!: string
 
     @ManyToOne(() => HealthInsurance, {nullable: true})

@@ -9,31 +9,31 @@ export class Attention extends BaseEntity {
     @Property({nullable: false})
     date!: Date
     
-    @Property({nullable: false})
+    @Property({nullable: true})
     paymentDate!: Date
 
-    @Property({nullable: false})
+    @Property({nullable: true})
     result!: string
 
-    @Property({nullable: false})
+    @Property({nullable: true})
     reason!: string
 
-    @Property({nullable: false})
+    @Property({nullable: true})
     currentIllness!: string
 
-    @Property({nullable: false})
+    @Property({nullable: true})
     vitalSigns!: string
 
-    @Property({ nullable: false })
+    @Property({ nullable: true })
     physicalExamination!: string;
 
-    @Property({ nullable: false })
+    @Property({ nullable: true })
     diagnosis!: string;
 
-    @Property({ nullable: false })
+    @Property({ nullable: true })
     treatment!: string;
 
-    @Property({ nullable: false })
+    @Property({ nullable: true })
     observation!: string;
 
     @Property({ nullable: true })

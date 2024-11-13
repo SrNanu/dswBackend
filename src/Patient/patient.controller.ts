@@ -39,7 +39,7 @@ async function findOneByDni(req: Request, res: Response) {
 
         res.status(200).json({ message: "Patient Found", data: aPatient });
     } catch (error: any) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message }); 
     }
 }
 

@@ -20,8 +20,8 @@ Content-Type: application/json
   "treatment": "Ibuprofeno 400mg cada 8 horas",
   "observation": "Recomendación de evitar luces brillantes y estrés",
   "dateCancelled": null,
-  "consultationHours": [2],
-  "patient": [5]
+  "consultationHours": [1],
+  "patient": [3]
 }
 
 

@@ -1,9 +1,11 @@
 import { Router } from "express";
-import {findAll, findOne, add , update, remove} from "./attention.controller.js";
+import {findAll, findOne, add , update, remove, findAllByID} from "./attention.controller.js";
 
 export const AttentionRoutes = Router()
 
 AttentionRoutes.get('/', findAll)
+
+AttentionRoutes.get('/ByPatient/:patientId', findAllByID)
 
 AttentionRoutes.get('/:id', findOne)
 
