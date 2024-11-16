@@ -4,13 +4,13 @@ import { Patient } from "./patient.entity.js";
 
 @Entity()
 export class HealthInsurance extends BaseEntity {
-    
 
-    @Property({nullable: false, unique: true})
+
+    @Property({ nullable: false, unique: true })
     name!: string
-    
-    
-    @OneToMany(() => Patient, patient => patient.healthInsurance, {cascade: [Cascade.ALL]})
+
+
+    @OneToMany(() => Patient, patient => patient.healthInsurance, { cascade: [Cascade.ALL] })
     patients = new Collection<Patient>(this)
-    
+
 }

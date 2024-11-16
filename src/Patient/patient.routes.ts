@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {findAll, findOne, add , update, remove,findOneByDni} from "./patient.controller.js";
+import { findAll, findOne, add, update, remove, findOneByDni } from "./patient.controller.js";
 
 export const PatientRouter = Router()
 
