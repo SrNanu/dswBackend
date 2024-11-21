@@ -1,5 +1,5 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
-import { BaseEntity } from "../shared/baseEntity.entity";
+import { Entity, Property } from "@mikro-orm/core";
+import { BaseEntity } from "../shared/baseEntity.entity.js";
 
 @Entity()
 export abstract class UserBase extends BaseEntity {

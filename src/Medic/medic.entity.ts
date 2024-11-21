@@ -2,7 +2,7 @@ import { Entity, Property, Rel, ManyToOne, OneToMany, Collection, Cascade } from
 import { BaseEntity } from "../shared/baseEntity.entity.js";
 import { Specialty } from "../Specialty/specialty.entity.js";
 import { ConsultationHours } from "./consultationHours.entity.js";
-import { UserBase } from "../UserBase/UserBase.entity.js";
+import { UserBase } from "../UserBase/userBase.entity.js";
 
 @Entity()
 export class Medic extends UserBase {
