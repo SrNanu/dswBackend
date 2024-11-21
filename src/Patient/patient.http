@@ -28,7 +28,8 @@ Content-Type: application/json
 GET http://localhost:3000/api/Patients/{{id}}
 
 ### OBTENER UN PACIENTE POR DNI
-GET http://localhost:3000/api/Patients/dni/32323323
+GET http://localhost:3000/api/Patients/dni/45342525
+
 
 
 ### MODIFICAREMOS UN PACIENTE (PUT - recurso completo) 

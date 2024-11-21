@@ -4,6 +4,7 @@ import { findAll, findOne, add, update, remove, findOneByDni } from "./patient.c
 export const PatientRouter = Router()
 
 PatientRouter.get('/', findAll)
+// PatientRouter.get('/:Id/attentions', findAttentionsByID) 
 
 PatientRouter.get('/:id', findOne)
 

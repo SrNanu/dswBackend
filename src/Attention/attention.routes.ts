@@ -5,7 +5,7 @@ export const AttentionRoutes = Router()
 
 AttentionRoutes.get('/', findAll)
 
-AttentionRoutes.get('/ByPatient/:patientId', findAllByID)
+AttentionRoutes.get('/ByPatient/:patientId', findAllByID) // Tendria que estar en paciente/attention
 
 AttentionRoutes.get('/:id', findOne)
 
