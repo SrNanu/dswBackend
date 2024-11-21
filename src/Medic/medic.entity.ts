@@ -2,9 +2,10 @@ import { Entity, Property, Rel, ManyToOne, OneToMany, Collection, Cascade } from
 import { BaseEntity } from "../shared/baseEntity.entity.js";
 import { Specialty } from "../Specialty/specialty.entity.js";
 import { ConsultationHours } from "./consultationHours.entity.js";
+import { UserBase } from "../UserBase/UserBase.entity.js";
 
 @Entity()
-export class Medic extends BaseEntity {
+export class Medic extends UserBase {
 
     @Property({ nullable: false })
     dni!: string
@@ -17,12 +18,6 @@ export class Medic extends BaseEntity {
 
     @Property({ nullable: false })
     dniType!: string
-
-    @Property({ nullable: true })
-    username!: string
-
-    @Property({ nullable: true })
-    password!: string
 
     @Property({ nullable: true })
     medicalConsultationValue!: number
