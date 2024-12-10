@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { orm } from "../shared/orm.js";
 import { Secretary } from "./secretary.entity.js";
+import bcrypt from 'bcryptjs';
 
 const em = orm.em
 em.getRepository(Secretary)
@@ -27,6 +28,20 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+
+    //Validamos que no exista un usuario con el mismo nombre de usuario
+    const secretary_exists = await em.findOne(Secretary, { username: req.body.username })
+    if (secretary_exists) {
+      return res.status(400).json({ message: ` User already exists with username ${req.body.username}`  })
+    }
+    //Valida que no exista un usuario con el mismo correo
+    const secretary_email_exists = await em.findOne(Secretary, { mail: req.body.mail })
+    if (secretary_email_exists) {
+      return res.status(400).json({ message: ` User already exists with email ${req.body.mail}` })
+    }
+
+    
+    req.body.password =  bcrypt.hashSync(req.body.password, 8)
     const secretary = em.create(Secretary, req.body)
     await em.flush()
     res.status(201).json({ message: 'Secretary created', data: secretary })

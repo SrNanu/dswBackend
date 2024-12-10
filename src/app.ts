@@ -10,6 +10,7 @@ import cors from 'cors'
 import { SpecialtyRouter } from './Specialty/specialty.routes.js'
 import { ConsultationHoursRouter } from './Medic/consultationHours.routes.js'
 import { AttentionRoutes } from './Attention/attention.routes.js'
+import { UserBaseRouter } from './UserBase/userBase.routes.js'
 
 const app = express()
 
@@ -31,6 +32,7 @@ app.use('/api/Specialties',SpecialtyRouter)
 app.use('/api/consultationhours', ConsultationHoursRouter)
 app.use('/api/attention', AttentionRoutes)
 app.use('/api/HealthInsurances', HealthInsuranceRouter)
+app.use('/api/login', UserBaseRouter)
 
 
 //middleware de errores
