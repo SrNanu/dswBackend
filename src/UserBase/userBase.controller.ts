@@ -33,8 +33,8 @@ async function login(req: Request, res: Response) {
       // Generar y devolver un token o una respuesta con información del usuario
       const secretKey = process.env.SECRET_KEY
       const token =jwt.sign(
-        { id: user.id, username: user.username}
-        ,secretKey || "Contraseña123", { expiresIn: '1h' });
+        { id: user.id, username: user.username,role:user.role}
+        ,"Contraseña123", { expiresIn: '1h' });
       // devolver el token y el role de usuario
       res.status(200).json({ message: 'Login successful', token, role });
 
