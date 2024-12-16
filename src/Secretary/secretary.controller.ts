@@ -39,10 +39,11 @@ async function add(req: Request, res: Response) {
     if (secretary_email_exists) {
       return res.status(400).json({ message: ` User already exists with email ${req.body.mail}` })
     }
-
-    
+    // Le asigno el rol a la secretaria
+    const aSecretary = req.body
+    aSecretary.role = 'secretary'
     req.body.password =  bcrypt.hashSync(req.body.password, 8)
-    const secretary = em.create(Secretary, req.body)
+    const secretary = em.create(Secretary, aSecretary)
     await em.flush()
     res.status(201).json({ message: 'Secretary created', data: secretary })
   }

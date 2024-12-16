@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { orm } from "../shared/orm.js";
 import { Medic } from "./medic.entity.js";
+import bcrypt from 'bcryptjs';
 
 const em = orm.em
 em.getRepository(Medic)
@@ -27,14 +28,33 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
     try {
-        const medic = em.create(Medic, req.body)
-        await em.flush()
-        res.status(201).json({ message: 'Medic created', data: medic })
+      // Validamos que no exista un usuario con el mismo nombre de usuario
+      const medic_exists = await em.findOne(Medic, { username: req.body.username });
+      if (medic_exists) {
+        return res.status(400).json({ message: `User already exists with username ${req.body.username}` });
+      }
+      // HAY QUE AGREGARLE MAIL AL MEDICO   
+      // Valida que no exista un usuario con el mismo correo
+      //const medic_email_exists = await em.findOne(Medic, { mail: req.body.mail });
+      //if (medic_email_exists) {
+      //  return res.status(400).json({ message: `User already exists with email ${req.body.mail}` });
+      //}
+  
+      // Asigno el rol al médico
+      const aMedic = { ...req.body, role: 'medic' };
+      // Encriptar la contraseña antes de guardarla
+      aMedic.password = bcrypt.hashSync(aMedic.password, 8);
+      
+      // Crear el objeto medico
+      const medic = em.create(Medic, aMedic);
+      await em.flush(); // Persistir el médico en la base de datos
+      
+      res.status(201).json({ message: 'Medic created', data: medic });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
     }
-    catch (error: any) {
-        res.status(500).json({ message: error.message })
-    }
-}
+  }
+  
 
 async function update(req: Request, res: Response) {
     try {

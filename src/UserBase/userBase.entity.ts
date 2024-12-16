@@ -10,5 +10,5 @@ export abstract class UserBase extends BaseEntity {
   password!: string;
 
   @Property({ nullable: false })
-  role!: "MEDIC" | "SECRETARY"; // Define el rol
+  role!: "medic" | "secretary"; // Define el rol
 }

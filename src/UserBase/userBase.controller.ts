@@ -26,13 +26,19 @@ async function login(req: Request, res: Response) {
       if (!isValidPassword) {
         return res.status(401).json({ message: 'Invalid password' });
       }
+
+      //Determinar el rol del usuario
+      const role = secretary ? 'secretary' : 'medic';
   
       // Generar y devolver un token o una respuesta con información del usuario
       const secretKey = process.env.SECRET_KEY
       const token =jwt.sign(
         { id: user.id, username: user.username}
         ,secretKey || "Contraseña123", { expiresIn: '1h' });
-      res.status(200).json({ message: 'Login successful', token });
+      // devolver el token y el role de usuario
+      res.status(200).json({ message: 'Login successful', token, role });
+
+      //res.status(200).json({ message: 'Login successful', token});
 
     } catch (error: any) {
       res.status(500).json({ message: error.message });
