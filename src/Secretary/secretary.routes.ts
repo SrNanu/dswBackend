@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { findAll, findOne, add, update, remove } from "./secretary.controller.js";
+import validateRole from "../shared/validateRole.js";
 
 export const SecretaryRouter = Router()
 
-SecretaryRouter.get('/', findAll)
+SecretaryRouter.get('/',validateRole('secretary'), findAll)
 
-SecretaryRouter.get('/:id', findOne)
+SecretaryRouter.get('/:id',validateRole('secretary'), findOne)
 
-SecretaryRouter.post('/', add)
+SecretaryRouter.post('/',validateRole('secretary'), add)
 
-SecretaryRouter.put('/:id', update)
+SecretaryRouter.put('/:id',validateRole('secretary'), update)
 
-SecretaryRouter.patch('/:id', update)
+SecretaryRouter.patch('/:id',validateRole('secretary'), update)
 
-SecretaryRouter.delete('/:id', remove)
+SecretaryRouter.delete('/:id', validateRole('secretary'), remove)
