@@ -17,7 +17,8 @@ const validateRole = (role: string) => {
           const decoded: any = jwt.verify(bearerToken, 'Contraseña123');
           // Validar si el rol coincide con el rol esperado
           console.log('Role:', decoded.role);
-          if (decoded.role && decoded.role === role) {
+          if ((role === 'both' && ['secretary', 'medic'].includes(decoded.role)) || decoded.role === role)
+         {
             next(); // El rol coincide, continuar
           } else {
             return res.status(403).json({ message: 'Acceso denegado: Rol insuficiente' });
