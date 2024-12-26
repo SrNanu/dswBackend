@@ -39,10 +39,10 @@ export class Attention extends BaseEntity {
     @Property({ nullable: true })
     dateCancelled!: Date;
 
-    @ManyToOne(() => ConsultationHours, {nullable: true})
+    @ManyToOne(() => ConsultationHours, {nullable: true, eager: true})
     consultationHours?: Rel<ConsultationHours>
     
-    @ManyToOne(() => Patient, {nullable: true})
+    @ManyToOne(() => Patient, {nullable: true, eager: true})
     patient?: Rel<Patient>
    
     
