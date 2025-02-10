@@ -25,7 +25,7 @@ export class Medic extends UserBase {
     @Property({ nullable: true })
     license!: number
 
-    @ManyToOne(() => Specialty, { nullable: true })
+    @ManyToOne(() => Specialty, { nullable: true, eager: true })
         specialty!: Rel<Specialty>
         
     @OneToMany(() => ConsultationHours, (consultationHours: ConsultationHours) => consultationHours.medic,{cascade: [Cascade.ALL], nullable: true})

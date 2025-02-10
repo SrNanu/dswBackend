@@ -4,7 +4,7 @@ import validateRole from "../shared/validateRole.js";
 
 export const SpecialtyRouter = Router()
 
-SpecialtyRouter.get('/',validateRole('secretary'), findAll)
+SpecialtyRouter.get('/', findAll) //Esto hay que modificarlo para que solo lo pueda ver el secretario
 
 SpecialtyRouter.get('/:id',validateRole('secretary'), findOne)
 
