@@ -8,12 +8,12 @@ AttentionRoutes.get('/',validateRole('both'), findAll)
 
 AttentionRoutes.get('/ByPatient/:patientId',validateRole('medic'), findAllByID) // Tendria que estar en paciente/attention
 
-AttentionRoutes.get('/:id',validateRole('medic'), findOne)
+AttentionRoutes.get('/:id',validateRole('both'), findOne)
 
 AttentionRoutes.post('/',validateRole('secretary'), add)
 
-AttentionRoutes.put('/:id',validateRole('medic'), update)
+AttentionRoutes.put('/:id',validateRole('both'), update)
 
-AttentionRoutes.patch('/:id',validateRole('medic'), update)
+AttentionRoutes.patch('/:id',validateRole('both'), update)
 
 AttentionRoutes.delete('/:id',validateRole('secretary'), remove)

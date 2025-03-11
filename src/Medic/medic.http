@@ -15,7 +15,7 @@ Content-Type: application/json
     "username": "JaneDoe",
     "password": "123456",
     "medicalConsultationValue": 10,
-    "specialty": [1],
+    "specialty": [2],
     "license": 258413213
 }
 
