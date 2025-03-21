@@ -1,5 +1,14 @@
 import { Router } from "express";
-import {findAll, findOne, add , update, remove, findAllByID, obtenerFechasOcupadas} from "./attention.controller.js";
+import {
+  findAll,
+  findOne,
+  add,
+  update,
+  remove,
+  findAllByID,
+  obtenerFechasOcupadas,
+  getAttentionsByDate,
+} from "./attention.controller.js";
 import validateRole from "../shared/validateRole.js";
 
 export const AttentionRoutes = Router()
@@ -18,4 +27,6 @@ AttentionRoutes.patch('/:id',validateRole('both'), update)
 
 AttentionRoutes.delete('/:id', remove) // ,validateRole('secretary')
 
-    AttentionRoutes.get("/unavailable-dates/:medicoId", obtenerFechasOcupadas);
+AttentionRoutes.get("/unavailable-dates/:medicoId", obtenerFechasOcupadas);
+
+AttentionRoutes.get("/unavailable-hours/:date", getAttentionsByDate);

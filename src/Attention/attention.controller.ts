@@ -124,6 +124,37 @@ async function obtenerFechasOcupadas(req: Request, res: Response) {
   }
 }
 
+//Esta funcion devuelve los ids de los horarios ocupados en una fecha especifica
+async function getAttentionsByDate(req: Request, res: Response) {
+  try {
+    const date = req.params.date; // Recibimos la fecha en formato YYYY-MM-DD desde la URL
 
+    // Buscamos las atenciones para esa fecha
+    const attentions = await em.find(
+      Attention,
+      { date },
+      { populate: ["consultationHours"] }
+    );
 
-export {findAll, findOne, add, update, remove, findAllByID, obtenerFechasOcupadas}
+    // Si no hay atenciones para esa fecha, respondemos con un array vacío
+    if (!attentions.length) {
+      return res
+        .status(200)
+        .json({ message: "No attentions found for this date", data: [] });
+    }
+
+    // Filtramos los IDs de los horarios ocupados
+    const occupiedConsultationHourIds = attentions.map(
+      (attention) => attention.consultationHours?.id
+    );
+
+    res.status(200).json({
+      message: "Found all occupied consultation hours for the specified date",
+      data: occupiedConsultationHourIds,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export {findAll, findOne, add, update, remove, findAllByID, obtenerFechasOcupadas, getAttentionsByDate}
