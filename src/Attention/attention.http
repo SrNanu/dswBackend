@@ -60,5 +60,11 @@ Content-Type: application/json
    "reason": "irritacion en la piek"
 }
 
-### BORRAR UN PACIENTE
+### BORRAR UN PACIENTE 
 DELETE http://localhost:3000/api/attention/{{id}}
+
+### OBTENER FECHAS DESHABILITADAS
+GET http://localhost:3000/api/attention/unavailable-dates/7
+
+### OBTENER HORAS DESHABILITADAS
+GET http://localhost:3000/api/attention/unavailable-hours/2025-03-26
