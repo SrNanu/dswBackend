@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { orm } from "../shared/orm.js";
 import { Patient } from "./patient.entity.js";
+import { Medic } from "../Medic/medic.entity.js";
+import { Attention } from "../Attention/attention.entity.js";
+import { ConsultationHours } from "../Medic/consultationHours.entity.js";
 
 const em = orm.em
 em.getRepository(Patient)
+em.getRepository(Attention)
 
 async function findAll(req: Request, res: Response) {
     try {
@@ -80,4 +84,33 @@ async function remove(req: Request, res: Response) {
     }
 }
 
-export { findAll, findOne, add, update, remove, findOneByDni }
+async function getAttentionsForOneMedic(req: Request, res: Response){
+    try {
+        const medicId = Number.parseInt(req.params.id)
+        const patientId = Number.parseInt(req.params.patientId)
+
+
+        const medic = await em.findOneOrFail(Medic, { id: medicId })
+
+        const attentions = await em.find(Attention, {
+            patient: { id: patientId },  // filter by patient
+            consultationHours: { medic: { id: medicId } } // filter by medic
+        }, {
+            populate: ["consultationHours", "consultationHours.medic", "patient"] // load necessary relations
+        });
+
+        //filter so that attentions with dateCancelled are not returned
+        const attentionsFiltered = attentions.filter((attention) => attention.dateCancelled === null)
+
+        if (attentionsFiltered.length === 0) {
+            return res.status(404).json({ message: `No attentions found for patient ${patientId} and medic ${medicId} that had not been canceled previously.` });
+        }
+        
+        res.status(200).json({ message: `Retrieved all attentions for a medic with ${medicId} that had not been canceled previously`, data: attentionsFiltered })
+    }
+    catch (error: any) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+export { findAll, findOne, add, update, remove, findOneByDni , getAttentionsForOneMedic}

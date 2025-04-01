@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { findAll, findOne, add, update, remove, findOneByDni } from "./patient.controller.js";
+import { findAll, findOne, add, update, remove, findOneByDni , getAttentionsForOneMedic} from "./patient.controller.js";
 import validateRole from "../shared/validateRole.js";
 
 export const PatientRouter = Router()
@@ -10,6 +10,10 @@ PatientRouter.get('/', findAll)
 PatientRouter.get('/:id',validateRole('secretary'), findOne)
 
 PatientRouter.get('/dni/:dni',validateRole('both'), findOneByDni)
+
+PatientRouter.get('/:patientId/attentions/medic/:medicId', validateRole('medic') , getAttentionsForOneMedic)
+
+//EJEMPLO PARA QUE SEPAN USAR ESTA RUTA QUE PUEDE SER MAS COMPLEJA:  GET /Patients/1/attentions/medic/2
 
 PatientRouter.post('/',validateRole('both'), add)
 
