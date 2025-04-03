@@ -4,6 +4,7 @@ import { Patient } from "./patient.entity.js";
 import { Medic } from "../Medic/medic.entity.js";
 import { Attention } from "../Attention/attention.entity.js";
 import { ConsultationHours } from "../Medic/consultationHours.entity.js";
+import jwt from 'jsonwebtoken';
 
 const em = orm.em
 em.getRepository(Patient)
@@ -84,11 +85,31 @@ async function remove(req: Request, res: Response) {
     }
 }
 
+//TODO FIND BY TOKEN, NOT BY MEDIC ID
+
 async function getAttentionsForOneMedic(req: Request, res: Response){
     try {
-        const medicId = Number.parseInt(req.params.id)
+        let medicId: number;
         const patientId = Number.parseInt(req.params.patientId)
-
+        const headerToken = req.headers['authorization'];
+        if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
+              // Tiene token
+              try {
+                const bearerToken = headerToken.slice(7);
+                const secretKey = process.env.SECRET_KEY;
+                  // Verificar el token
+                  const decoded: any = jwt.verify(bearerToken, 'Contraseña123');
+                  medicId = Number.parseInt(decoded.id);
+     
+              } catch (error: any) {
+        
+                return res.status(401).json({ message: 'Invalid token' });
+                
+              }
+            } else {
+        
+              return res.status(403).json({ message: 'Acceso Denegado' });
+            }
 
         const medic = await em.findOneOrFail(Medic, { id: medicId })
 
