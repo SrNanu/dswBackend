@@ -1,7 +1,7 @@
 {
-  "name": "package",
-  "version": "20.13.1",
-  "description": "ProjectoDSW",
+  "name": "dsw-backend",
+  "version": "1.0.0",
+  "description": "Proyecto DSW",
   "type": "module",
   "main": "app.js",
   "scripts": {
@@ -29,7 +29,6 @@
     "express": "4.19.2",
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
-    "package": "file:",
     "reflect-metadata": "0.2.2"
   }
 }
