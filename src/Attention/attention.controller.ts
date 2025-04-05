@@ -96,54 +96,55 @@ async function obtenerFechasOcupadas(req: Request, res: Response) {
     // Obtener los IDs de los horarios del médico
     const horariosIds = horariosMedico.map(horario => horario.id).filter((id): id is number => id !== undefined);
 
-    // Obtener todas las atenciones relacionadas con esos horarios
+    // Filtrar solo atenciones que no fueron canceladas (cancellationDate: null)
     const atenciones = await em.find(
       Attention,
-      { consultationHours: { $in: horariosIds } }, // Filtrar por los horarios del médico
+      {
+        consultationHours: { $in: horariosIds },
+        dateCancelled: null // ← Esto se agregó para excluir las atenciones canceladas
+      },
       { populate: ["consultationHours"] }
     );
 
-    // Contar cuántas atenciones hay por fecha
     const contadorFechas: Record<string, number> = {};
     atenciones.forEach(atencion => {
-      const fecha = atencion.date.toISOString().split("T")[0]; // Convertir a formato YYYY-MM-DD
+      const fecha = atencion.date.toISOString().split("T")[0];
       contadorFechas[fecha] = (contadorFechas[fecha] || 0) + 1;
     });
 
-    // Determinar qué fechas tienen todos los horarios ocupados
-    const totalHorarios = horariosMedico.length; // Cantidad total de horarios del médico
+    const totalHorarios = horariosMedico.length;
     const fechasOcupadas = Object.keys(contadorFechas).filter(
       fecha => contadorFechas[fecha] >= totalHorarios
     );
 
-    res
-      .status(200)
-      .json({ message: "Found all unabailables dates", data: fechasOcupadas }); // Enviar lista de fechas ocupadas al frontend
+    res.status(200).json({ message: "Found all unavailable dates", data: fechasOcupadas });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 }
 
+
 //Esta funcion devuelve los ids de los horarios ocupados en una fecha especifica
 async function getAttentionsByDate(req: Request, res: Response) {
   try {
-    const date = req.params.date; // Recibimos la fecha en formato YYYY-MM-DD desde la URL
+    const date = req.params.date;
 
-    // Buscamos las atenciones para esa fecha
+    // Filtrar solo atenciones no canceladas (cancellationDate: null)
     const attentions = await em.find(
       Attention,
-      { date },
+      {
+        date,
+        dateCancelled: null // ← Esto se agregó para excluir las atenciones canceladas
+      },
       { populate: ["consultationHours"] }
     );
 
-    // Si no hay atenciones para esa fecha, respondemos con un array vacío
     if (!attentions.length) {
       return res
         .status(200)
         .json({ message: "No attentions found for this date", data: [] });
     }
 
-    // Filtramos los IDs de los horarios ocupados
     const occupiedConsultationHourIds = attentions.map(
       (attention) => attention.consultationHours?.id
     );
@@ -156,5 +157,6 @@ async function getAttentionsByDate(req: Request, res: Response) {
     res.status(500).json({ message: error.message });
   }
 }
+
 
 export {findAll, findOne, add, update, remove, findAllByID, obtenerFechasOcupadas, getAttentionsByDate}
