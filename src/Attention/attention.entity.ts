@@ -18,21 +18,8 @@ export class Attention extends BaseEntity {
     @Property({nullable: true})
     reason!: string
 
-    @Property({nullable: true})
-    currentIllness!: string
-
-    @Property({nullable: true})
-    vitalSigns!: string
-
-    @Property({ nullable: true })
-    physicalExamination!: string;
-
-    @Property({ nullable: true })
-    diagnosis!: string;
-
-    @Property({ nullable: true })
-    treatment!: string;
-
+    //atributos eliminados: CurrentIllness, VitalSigns, PhysicalExamination, Diagnosis, Treatment
+    
     @Property({ nullable: true })
     observation!: string;
 

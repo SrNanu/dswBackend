@@ -13,8 +13,6 @@ PatientRouter.get('/dni/:dni',validateRole('both'), findOneByDni)
 
 PatientRouter.get('/:patientId/attentions', validateRole('medic') , getAttentionsForOneMedic)
 
-//EJEMPLO PARA QUE SEPAN USAR ESTA RUTA QUE PUEDE SER MAS COMPLEJA:  GET /Patients/1/attentions/medic/2
-
 PatientRouter.post('/',validateRole('both'), add)
 
 PatientRouter.put('/:id',validateRole('both'), update)
