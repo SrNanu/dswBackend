@@ -1,11 +1,40 @@
 
 import { MikroORM } from "@mikro-orm/mysql";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
+import { ReflectMetadataProvider } from "@mikro-orm/core";
+
+import { Secretary } from "../Secretary/secretary.entity.js";
+import { Patient } from "../Patient/patient.entity.js";
+import { Attention } from "../Attention/attention.entity.js";
+import { Medic } from "../Medic/medic.entity.js";
+import { Specialty } from "../Specialty/specialty.entity.js";
+import { ConsultationHours } from "../Medic/consultationHours.entity.js";
+import { HealthInsurance } from "../Patient/healthinsurance.entity.js";
+import { UserBase } from "../UserBase/userBase.entity.js";
+import { BaseEntity } from "../shared/baseEntity.entity.js";
+;
 
 export const orm = await MikroORM.init({
-    entities: ['dist/**/*.entity.js'],
+
+    //Configuración para excluir validadores
+    metadataProvider: ReflectMetadataProvider,
+    discovery: {
+      requireEntitiesArray: true, // Obliga a usar lista manual
+      disableDynamicFileAccess: true, // Evita escaneo automático
+    },
+
+    entities: [
+        Secretary
+        , Patient
+        , Attention
+        , Medic
+        , Specialty
+        , ConsultationHours
+        , HealthInsurance
+        , UserBase
+        , BaseEntity
+    ],
     
-    entitiesTs: ['src/**/*.entity.ts'],
     
     dbName: 'medicsystemdb',
     

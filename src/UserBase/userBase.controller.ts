@@ -4,6 +4,7 @@ import { Secretary } from "../Secretary/secretary.entity.js";
 import { Medic } from "../Medic/medic.entity.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { UserBase } from "./userBase.entity.js";
 
 const em = orm.em
 
@@ -44,4 +45,15 @@ async function login(req: Request, res: Response) {
       res.status(500).json({ message: error.message });
     }
   }
-  export { login }
+
+async function findOne(req: Request, res: Response) {
+    try {
+        const username = req.params.username;
+        const userBase = await em.findOneOrFail(UserBase, { username});
+        res.status(200).json({ message: 'Found User', data: userBase });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+  export { login, findOne }

@@ -1,0 +1,70 @@
+### PATIENT TESTING
+### 1. VALIDACIONES BÁSICAS
+### 1.1 Campos obligatorios
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+
+{
+  "dni": "12345678"
+}
+
+
+### 1.2 Email inválido
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+
+{
+  "dni": "12345678",
+  "firstname": "Ana",
+  "lastname": "Paciente",
+  "phoneNumber": "1122334455",
+  "address": "Calle 123",
+  "email": "no-es-email",
+  "birthDate": "1990-01-01"
+}
+
+
+### 1.3 Fecha nacimiento futura
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+
+{
+  "dni": "12345678",
+  "firstname": "Ana",
+  "lastname": "Paciente",
+  "phoneNumber": "1122334455",
+  "address": "Calle 123",
+  "email": "ana@email.com",
+  "birthDate": "2050-01-01"
+}
+
+
+### 2. UNICIDAD
+### 2.1 Creación válida
+# @name createPatient
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+
+{
+  "dni": "12345678",
+  "firstname": "Ana",
+  "lastname": "Paciente",
+  "phoneNumber": "1122334455",
+  "address": "Calle 123",
+  "email": "ana@email.com",
+  "birthDate": "1990-01-01"
+}
+
+### 2.2 DNI duplicado
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+
+{
+  "dni": "12345678",
+  "firstname": "Otro",
+  "lastname": "Paciente",
+  "phoneNumber": "1122334455",
+  "address": "Calle 456",
+  "email": "otro@email.com",
+  "birthDate": "1995-01-01"
+}

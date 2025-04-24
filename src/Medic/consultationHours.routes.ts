@@ -1,18 +1,20 @@
 import { Router } from "express";
 import { sanitizeHealthInsuranceInput, findAll, findOne, add , update, remove} from "./consultationHours.controller.js";
 import validateRole from "../shared/validateRole.js";
-
+import {Validator} from "../shared/Validator/validator.js";
 
 export const ConsultationHoursRouter = Router()
 
 ConsultationHoursRouter.get('/', findAll)
 
-ConsultationHoursRouter.get('/:id', findOne)
+ConsultationHoursRouter.get('/:id', Validator.validateIdParam, findOne)
 
-ConsultationHoursRouter.post('/',validateRole('secretary'),sanitizeHealthInsuranceInput, add)
+ConsultationHoursRouter.post('/',validateRole('secretary'),sanitizeHealthInsuranceInput, Validator.validateConsultationHoursInput, add)
 
-ConsultationHoursRouter.put('/:id',validateRole('secretary'), sanitizeHealthInsuranceInput, update)
+ConsultationHoursRouter.put('/:id',validateRole('secretary'), sanitizeHealthInsuranceInput, Validator.validateIdParam,
+Validator.validateConsultationHoursInput, update)
 
-ConsultationHoursRouter.patch('/:id',validateRole('secretary'),sanitizeHealthInsuranceInput, update)
+ConsultationHoursRouter.patch('/:id',validateRole('secretary'),sanitizeHealthInsuranceInput, Validator.validateIdParam,
+Validator.validateConsultationHoursInput, update)
 
-ConsultationHoursRouter.delete('/:id',validateRole('secretary'), remove)
+ConsultationHoursRouter.delete('/:id',validateRole('secretary'), Validator.validateIdParam, remove)
