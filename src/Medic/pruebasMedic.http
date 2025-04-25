@@ -1,8 +1,8 @@
 ### Con F12 en la web aparece el token de autenticación, copiar y asginar a la variable authToken
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTUyNTgzOCwiZXhwIjoxNzQ1NTI5NDM4fQ.I_GqX8whhUPKpY6ZBghBUWVsXOo3HJQxIhDR9gzMs0c
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTYwNjI5MiwiZXhwIjoxNzQ1NjA5ODkyfQ.UT5bzv8dpl2yHUJ0hh-YmKTYw_BNe0xNFaqkaLWGbWE
 
-### 2. VALIDACIONES BÁSICAS
-### 2.1 Campos obligatorios faltantes
+### VALIDACIONES BÁSICAS
+### Campos obligatorios faltantes
 POST http://localhost:3000/api/medics
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
@@ -12,7 +12,7 @@ Authorization: Bearer {{authToken}}
 }
 
 
-### 2.2 Tipo DNI inválido
+### Tipo DNI inválido
 POST http://localhost:3000/api/medics
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
@@ -27,7 +27,7 @@ Authorization: Bearer {{authToken}}
 }
 
 
-### 2.3 Password corta
+### Password corta
 POST http://localhost:3000/api/medics
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
@@ -41,9 +41,23 @@ Authorization: Bearer {{authToken}}
   "password": "123"
 }
 
+### Espiacialidad inválida
+POST http://localhost:3000/api/medics
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
-### 3. VALIDACIONES DE UNICIDAD
-### 3.1 Creación válida
+{
+  "dni": "12345678",
+  "dniType": "DNI",
+  "firstname": "Carlos",
+  "lastname": "Médico",
+  "username": "cmedico",
+  "password": "Password123",
+  "specialty": 1250000
+}
+
+### VALIDACIONES DE UNICIDAD
+### Creación válida
 # @name createMedic
 POST http://localhost:3000/api/medics
 Content-Type: application/json
@@ -59,7 +73,7 @@ Authorization: Bearer {{authToken}}
   "specialty": 1
 }
 
-### 3.2 Username duplicado (deberia fallar)
+### Username duplicado (deberia fallar)
 POST http://localhost:3000/api/medics
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
@@ -73,16 +87,16 @@ Authorization: Bearer {{authToken}}
   "password": "Password123"
 }
 
-### 4. ACTUALIZACIONES
+### ACTUALIZACIONES
 @medicId = {{createMedic.response.body.data.id}}
 
-### 4.1 Actualización con DNI existente (deberia fallar)
+### Actualización con DNI existente (deberia fallar) (si en dniType ponemos otro tipo de documento, no deberia fallar)
 PUT http://localhost:3000/api/medics/{{medicId}}
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "dni": "11111111",
+  "dni": "21317912",
   "dniType": "DNI",
   "firstname": "Carlos",
   "lastname": "Médico",

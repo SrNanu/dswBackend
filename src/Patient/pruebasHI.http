@@ -1,0 +1,57 @@
+
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTYwNjI5MiwiZXhwIjoxNzQ1NjA5ODkyfQ.UT5bzv8dpl2yHUJ0hh-YmKTYw_BNe0xNFaqkaLWGbWE
+
+### Pruebas de validación
+
+### Falta nombre (debería fallar)
+POST http://localhost:3000/api/healthinsurances
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{}
+
+### Nombre duplicado (debería fallar)
+POST http://localhost:3000/api/healthinsurances
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "OSDE"
+}
+
+### Creación válida (éxito)
+# @name createHealthInsurance
+POST http://localhost:3000/api/health-insurances
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Nueva Obra Social"
+}
+
+### Pruebas de actualización
+
+### Obtener ID creado
+@healthInsuranceId = {{createHealthInsurance.response.body.data.id}}
+
+### Actualización válida
+PUT http://localhost:3000/api/health-insurances/{{healthInsuranceId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Obra Social Actualizada"
+}
+
+### Actualización a nombre existente (debería fallar)
+PUT http://localhost:3000/api/health-insurances/{{healthInsuranceId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "OSDE"
+}
+
+### Eliminación
+DELETE http://localhost:3000/api/health-insurances/{{healthInsuranceId}}
+Authorization: Bearer {{authToken}}

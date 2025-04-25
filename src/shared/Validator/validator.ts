@@ -34,6 +34,25 @@ export class Validator {
             }
         }
 
+        // Valida que el DNI sea un número válido
+        if (isNaN(Number(req.body.dni))) {
+            return res.status(400).json({ message: "El DNI debe ser un número válido" });
+        }
+
+        // Valida que el conjunto dniType y dni sean unicos
+        const existingMedicDni = await orm.em.findOne(Medic, { dni: req.body.dni, dniType: req.body.dniType });
+        if (existingMedicDni && existingMedicDni.id !== Number(req.params.id)) {
+            return res.status(400).json({ message: "Ya existe un médico con este DNI" });
+        }
+        
+        // Validar que la specialty exista
+        if (req.body.specialty) {
+            const specialty = await orm.em.findOne(Specialty, { id: req.body.specialty });
+            if (!specialty) {
+                return res.status(404).json({ message: "Especialidad no encontrada" });
+            }
+        }
+
         // Valida tipo de DNI
         if (!validDniTypes.includes(req.body.dniType)) {
             return res.status(400).json({ message: "Tipo de DNI inválido" });
@@ -71,7 +90,7 @@ export class Validator {
     }
 
     // Validaciones para ConsultationHours
-    static validateConsultationHoursInput(req: Request, res: Response, next: NextFunction) {
+    static async validateConsultationHoursInput(req: Request, res: Response, next: NextFunction) {
         const requiredFields = ['day', 'startTime', 'medic'];
         const validDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
         const validstartTime = ["07:00", "07:15", "07:30", "07:45", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", 
@@ -82,6 +101,18 @@ export class Validator {
             if (!req.body[field]) {
                 return res.status(400).json({ message: `Campo '${field}' es obligatorio` });
             }
+        }
+
+        //Validar que el horario no exista para un mismo médico
+        const existingHours = await orm.em.findOne(ConsultationHours, { medic: req.body.medic, day: req.body.day, startTime: req.body.startTime });
+        if (existingHours) {
+            return res.status(400).json({ message: "Ya existe un horario de consulta para este médico en este día y hora" });
+        }
+
+        //Validar que el medico exista
+        const medic = await orm.em.findOne(Medic, { id: req.body.medic });
+        if (!medic) {
+            return res.status(404).json({ message: "Médico no encontrado" });
         }
 
         if (!validstartTime.includes(req.body.startTime)) {
@@ -110,6 +141,18 @@ export class Validator {
             return res.status(400).json({ message: "La fecha no puede ser en el pasado" });
         }
 
+        // Validar que el paciente exista
+        const patient = await orm.em.findOne(Patient, { id: req.body.patient });
+        if (!patient) {
+            return res.status(404).json({ message: "Paciente no encontrado" });
+        }
+
+        // Validar que no se cargue una atencion en un mismo consultationHours para un mismo dia
+        const existingAttention = await orm.em.findOne(Attention, { consultationHours: req.body.consultationHours, date: req.body.date });
+        if (existingAttention) {
+            return res.status(400).json({ message: "Ya existe una atención para este horario de consulta en esta fecha" });
+        }
+
         // Validar que el horario de consulta exista
         const consultationHours = await orm.em.findOne(ConsultationHours, { id: req.body.consultationHours });
         if (!consultationHours) {
@@ -122,7 +165,7 @@ export class Validator {
     // Validaciones para Secretary
     static async validateSecretaryInput(req: Request, res: Response, next: NextFunction) {
         const requiredFields = ['dni', 'dniType', 'firstname', 'lastname', 'mail', 'username', 'password'];
-        const validDniTypes = ['DNI', 'LE', 'LC', 'PASAPORTE'];
+        const validDniTypes = ['DNI', 'Libreta Civica', 'Pasaporte'];
 
         // Validar campos requeridos
         for (const field of requiredFields) {
@@ -140,6 +183,17 @@ export class Validator {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.mail)) {
             return res.status(400).json({ message: "Formato de email inválido" });
+        }
+
+        // Validar que el conjunto dniType y dni sean únicos
+        const existingSecretaryDni = await orm.em.findOne(Secretary, { dni: req.body.dni, dniType: req.body.dniType });
+        if (existingSecretaryDni && existingSecretaryDni.id !== Number(req.params.id)) {
+            return res.status(400).json({ message: "Ya existe una secretaria con esta identificacion" });
+        }
+
+        // Validar que la fecha de nacimiento no sea en el futuro
+        if (req.body.bornDate && new Date(req.body.bornDate) > new Date()) {
+            return res.status(400).json({ message: "La fecha de nacimiento no puede ser en el futuro" });
         }
 
         // Validar username único

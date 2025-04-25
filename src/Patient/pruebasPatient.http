@@ -1,70 +1,126 @@
-### PATIENT TESTING
-### 1. VALIDACIONES BÁSICAS
-### 1.1 Campos obligatorios
+
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTYwNjI5MiwiZXhwIjoxNzQ1NjA5ODkyfQ.UT5bzv8dpl2yHUJ0hh-YmKTYw_BNe0xNFaqkaLWGbWE
+
+#Pruebas de validación
+
+###Falta campo obligatorio (debería fallar)
 POST http://localhost:3000/api/patients
 Content-Type: application/json
-
-{
-  "dni": "12345678"
-}
-
-
-### 1.2 Email inválido
-POST http://localhost:3000/api/patients
-Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "dni": "12345678",
-  "firstname": "Ana",
-  "lastname": "Paciente",
-  "phoneNumber": "1122334455",
-  "address": "Calle 123",
+  "firstname": "Juan",
+  "lastname": "Pérez"
+}
+
+### Email inválido (debería fallar)
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "dni": "12345678",
+  "firstname": "Juan",
+  "lastname": "Pérez",
+  "phoneNumber": "1234567890",
+  "address": "Calle Falsa 123",
   "email": "no-es-email",
   "birthDate": "1990-01-01"
 }
 
-
-### 1.3 Fecha nacimiento futura
+### Teléfono inválido (debería fallar)
 POST http://localhost:3000/api/patients
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "dni": "12345678",
-  "firstname": "Ana",
-  "lastname": "Paciente",
-  "phoneNumber": "1122334455",
-  "address": "Calle 123",
-  "email": "ana@email.com",
-  "birthDate": "2050-01-01"
-}
-
-
-### 2. UNICIDAD
-### 2.1 Creación válida
-# @name createPatient
-POST http://localhost:3000/api/patients
-Content-Type: application/json
-
-{
-  "dni": "12345678",
-  "firstname": "Ana",
-  "lastname": "Paciente",
-  "phoneNumber": "1122334455",
-  "address": "Calle 123",
-  "email": "ana@email.com",
+  "firstname": "Juan",
+  "lastname": "Pérez",
+  "phoneNumber": "abc",
+  "address": "Calle Falsa 123",
+  "email": "juan@mail.com",
   "birthDate": "1990-01-01"
 }
 
-### 2.2 DNI duplicado
+### Fecha nacimiento futura (debería fallar)
 POST http://localhost:3000/api/patients
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "dni": "12345678",
+  "firstname": "Juan",
+  "lastname": "Pérez",
+  "phoneNumber": "1234567890",
+  "address": "Calle Falsa 123",
+  "email": "juan@mail.com",
+  "birthDate": "2050-01-01"
+}
+
+### Creación válida (éxito)
+# @name createPatient
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "dni": "12345678",
+  "firstname": "Juan",
+  "lastname": "Pérez",
+  "phoneNumber": "1234567890",
+  "address": "Calle Falsa 123",
+  "email": "juan@mail.com",
+  "birthDate": "1990-01-01",
+  "healthInsurance": 1
+}
+
+### DNI duplicado (debería fallar)
+POST http://localhost:3000/api/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "dni": "12345678",
   "firstname": "Otro",
   "lastname": "Paciente",
-  "phoneNumber": "1122334455",
-  "address": "Calle 456",
-  "email": "otro@email.com",
-  "birthDate": "1995-01-01"
+  "phoneNumber": "9876543210",
+  "address": "Otra Calle 456",
+  "email": "otro@mail.com",
+  "birthDate": "1985-05-15"
 }
+
+### Pruebas de actualización
+
+### Obtener ID creado
+@patientId = {{createPatient.response.body.data.id}}
+
+### Actualización válida (PUT completo)
+PUT http://localhost:3000/api/patients/{{patientId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "dni": "12345678",
+  "firstname": "Juan Carlos",
+  "lastname": "Pérez",
+  "phoneNumber": "1234567890",
+  "address": "Calle Falsa 123",
+  "email": "juan.carlos@mail.com",
+  "birthDate": "1990-01-01",
+  "grupoSanguineo": "A+"
+}
+
+### Actualización parcial (PATCH)
+PATCH http://localhost:3000/api/patients/{{patientId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "address": "Nueva Dirección 456"
+}
+
+### Eliminación (opcional)
+DELETE http://localhost:3000/api/patients/{{patientId}}
+Authorization: Bearer {{authToken}}

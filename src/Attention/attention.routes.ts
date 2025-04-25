@@ -25,10 +25,9 @@ AttentionRoutes.post('/',validateRole('secretary'), Validator.validateAttentionI
 AttentionRoutes.put('/:id',validateRole('both'), Validator.validateIdParam,
 Validator.validateAttentionInput, update)
 
-AttentionRoutes.patch('/:id',validateRole('both'), Validator.validateIdParam,
-Validator.validateAttentionInput, update)
+AttentionRoutes.patch('/:id',validateRole('both'), update)
 
-AttentionRoutes.delete('/:id', Validator.validateIdParam, remove) // ,validateRole('secretary')
+AttentionRoutes.delete('/:id', Validator.validateIdParam, validateRole('secretary'), remove)
 
 AttentionRoutes.get("/unavailable-dates/:medicoId", Validator.validateIdParam, obtenerFechasOcupadas);
 

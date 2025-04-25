@@ -1,0 +1,97 @@
+
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTYwNjI5MiwiZXhwIjoxNzQ1NjA5ODkyfQ.UT5bzv8dpl2yHUJ0hh-YmKTYw_BNe0xNFaqkaLWGbWE
+
+#Pruebas de validación
+
+#Falta campo obligatorio (debería fallar)
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Lunes",
+  "startTime": "08:00"
+}
+
+### Día inválido (debería fallar)
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Funday",
+  "startTime": "08:00",
+  "medic": 1
+}
+
+### Hora inválida (debería fallar)
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Lunes",
+  "startTime": "25:00",
+  "medic": 1
+}
+
+### Medic no existe (debería fallar)
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Lunes",
+  "startTime": "08:00",
+  "medic": 50000
+}
+
+### Creación válida (éxito)
+# @name createConsultationHour
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Lunes",
+  "startTime": "08:00",
+  "medic": 1
+}
+### Horario ya existe (debería fallar)
+POST http://localhost:3000/api/consultationhours
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Lunes",
+  "startTime": "08:00",
+  "medic": 1
+}
+#Pruebas de actualización
+
+#Obtener ID creado
+@consultationHourId = {{createConsultationHour.response.body.data.id}}
+
+### Actualización válida
+PUT http://localhost:3000/api/consultationhours/{{consultationHourId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "day": "Martes",
+  "startTime": "09:00",
+  "medic": 1
+}
+
+### Actualización parcial
+PATCH http://localhost:3000/api/consultationhours/{{consultationHourId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "startTime": "10:00"
+}
+
+### Eliminación
+DELETE http://localhost:3000/api/consultationhours/{{consultationHourId}}
+Authorization: Bearer {{authToken}}
