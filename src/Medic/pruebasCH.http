@@ -1,6 +1,5 @@
 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTYwNjI5MiwiZXhwIjoxNzQ1NjA5ODkyfQ.UT5bzv8dpl2yHUJ0hh-YmKTYw_BNe0xNFaqkaLWGbWE
-
+@authToken = {{authToken}} // Token de autenticación (debe ser válido para las pruebas)
 #Pruebas de validación
 
 #Falta campo obligatorio (debería fallar)

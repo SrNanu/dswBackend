@@ -11,9 +11,9 @@ HealthInsuranceRouter.get('/:id', Validator.validateIdParam, findOne)
 HealthInsuranceRouter.post('/', Validator.validateHealthInsuranceInput, add)
 
 HealthInsuranceRouter.put('/:id', Validator.validateIdParam,
-    Validator.validateHealthInsuranceInput, update)
+    Validator.validateUpdateHealthInsuranceInput, update)
 
 HealthInsuranceRouter.patch('/:id', Validator.validateIdParam,
-    Validator.validateHealthInsuranceInput, update)
+    Validator.validateUpdateHealthInsuranceInput, update)
 
 HealthInsuranceRouter.delete('/:id', Validator.validateIdParam, remove)

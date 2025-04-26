@@ -22,10 +22,9 @@ AttentionRoutes.get('/:id',validateRole('both'), Validator.validateIdParam, find
 
 AttentionRoutes.post('/',validateRole('secretary'), Validator.validateAttentionInput, add)
 
-AttentionRoutes.put('/:id',validateRole('both'), Validator.validateIdParam,
-Validator.validateAttentionInput, update)
+AttentionRoutes.put('/:id',validateRole('both'), update)
 
-AttentionRoutes.patch('/:id',validateRole('both'), update)
+AttentionRoutes.patch('/:id', validateRole('both'), update)
 
 AttentionRoutes.delete('/:id', Validator.validateIdParam, validateRole('secretary'), remove)
 

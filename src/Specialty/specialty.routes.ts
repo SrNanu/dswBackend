@@ -12,9 +12,9 @@ SpecialtyRouter.get('/:id',validateRole('secretary'), Validator.validateIdParam,
 SpecialtyRouter.post('/',validateRole('secretary'), Validator.validateSpecialtyInput, add)
 
 SpecialtyRouter.put('/:id',validateRole('secretary'), Validator.validateIdParam,
-Validator.validateSpecialtyInput, update)
+Validator.validateUpdateSpecialtyInput, update)
 
 SpecialtyRouter.patch('/:id',validateRole('secretary'), Validator.validateIdParam,
-Validator.validateSpecialtyInput, update)
+Validator.validateUpdateSpecialtyInput, update)
 
 SpecialtyRouter.delete('/:id',validateRole('secretary'), Validator.validateIdParam, remove)

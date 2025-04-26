@@ -10,8 +10,8 @@ SecretaryRouter.get('/:id',validateRole('secretary'), Validator.validateIdParam,
 
 SecretaryRouter.post('/', validateRole('secretary'), Validator.validateSecretaryInput, add)
 
-SecretaryRouter.put('/:id',validateRole('secretary'), Validator.validateIdParam, Validator.validateSecretaryInput, update)
+SecretaryRouter.put('/:id',validateRole('secretary'), Validator.validateIdParam, Validator.validateUpdateSecretaryInput, update)
 
-SecretaryRouter.patch('/:id',validateRole('secretary'), Validator.validateIdParam, Validator.validateSecretaryInput, update)
+SecretaryRouter.patch('/:id',validateRole('secretary'), Validator.validateIdParam, Validator.validateUpdateSecretaryInput, update)
 
 SecretaryRouter.delete('/:id', validateRole('secretary'), Validator.validateIdParam,remove)

@@ -12,9 +12,9 @@ ConsultationHoursRouter.get('/:id', Validator.validateIdParam, findOne)
 ConsultationHoursRouter.post('/',validateRole('secretary'),sanitizeHealthInsuranceInput, Validator.validateConsultationHoursInput, add)
 
 ConsultationHoursRouter.put('/:id',validateRole('secretary'), sanitizeHealthInsuranceInput, Validator.validateIdParam,
-Validator.validateConsultationHoursInput, update)
+Validator.validateUpdateConsultationHoursInput, update)
 
 ConsultationHoursRouter.patch('/:id',validateRole('secretary'),sanitizeHealthInsuranceInput, Validator.validateIdParam,
-Validator.validateConsultationHoursInput, update)
+Validator.validateUpdateConsultationHoursInput, update)
 
 ConsultationHoursRouter.delete('/:id',validateRole('secretary'), Validator.validateIdParam, remove)

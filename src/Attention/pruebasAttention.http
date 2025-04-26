@@ -1,7 +1,6 @@
 
 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJzYW50aW5vIiwicm9sZSI6InNlY3JldGFyeSIsImlhdCI6MTc0NTYxMDk5OSwiZXhwIjoxNzQ1NjE0NTk5fQ.1naV_m6524YG3IWMPsPOz0WlpWmH7ED9cU5jZ2tS9x4
-
+@authToken = {{authToken}} // Token de autenticación (debe ser válido para las pruebas)
 ### Pruebas de validación
 
 ### Falta campos obligatorios (debería fallar)
@@ -90,15 +89,6 @@ Authorization: Bearer {{authToken}}
   "patient": 1,
   "result": "Todo normal",
   "reason": "Control anual completo"
-}
-
-### Actualización parcial
-PATCH http://localhost:3000/api/attention/{{attentionId}}
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-{
-  "observation": "Paciente llegó 15 minutos tarde"
 }
 
 ### Cancelar atencion

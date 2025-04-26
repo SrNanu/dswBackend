@@ -11,7 +11,7 @@ import { BaseEntity } from "../baseEntity.entity.js";
 import { UserBase } from "../../UserBase/userBase.entity.js";
 
 export class Validator {
-    private constructor() {} // Evita instanciación
+    private constructor() {}
 
     // Validacion de ID tipo number
     static validateIdParam(req: Request, res: Response, next: NextFunction) {
@@ -276,7 +276,7 @@ export class Validator {
 
         next();
     }
-
+    
     // Validaciones para Specialty
     static async validateSpecialtyInput(req: Request, res: Response, next: NextFunction) {
         const requiredFields = ['code', 'name'];
@@ -321,4 +321,275 @@ export class Validator {
     
         next();
     }
+
+
+
+    // Validaciones para actualizar Specialty (permite que se actualicen solo algunos campos de una especialidad existente)
+    static async validateUpdateSpecialtyInput(req: Request, res: Response, next: NextFunction) {
+        const validFields = ['code', 'name'];
+        const maxNameLength = 100;
+
+        // Validar que al menos un campo válido esté presente
+        const hasValidField = validFields.some(field => req.body[field] !== undefined);
+        if (!hasValidField) {
+            return res.status(400).json({ message: "Al menos uno de los campos 'code' o 'name' es obligatorio" });
+        }
+
+        // Validar longitud máxima del nombre
+        if (req.body.name && req.body.name.length > maxNameLength) {
+            return res.status(400).json({ message: `El nombre no puede exceder los ${maxNameLength} caracteres` });
+        }
+
+        // Validar código único (solo para creación)
+        if (req.body.code) {
+            const existingCode = await orm.em.findOne(Specialty, { code: req.body.code });
+            if (existingCode && existingCode.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "Ya existe una especialidad con este código" });
+            }
+        }
+
+        // Validar nombre único (excepto en actualización del mismo registro)
+        if (req.body.name) {
+            const existingName = await orm.em.findOne(Specialty, { name: req.body.name });
+            if (existingName && existingName.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "Ya existe una especialidad con este nombre" });
+            }
+        }
+
+        next();
+    }
+
+    // Validaciones para actualizar Medic (permite que se actualicen solo algunos campos de un médico existente)
+    static async validateUpdateMedicInput(req: Request, res: Response, next: NextFunction) {
+        const validFields = ['dni', 'dniType', 'firstname', 'lastname', 'username', 'password', 'specialty'];
+        const validDniTypes = ['DNI', 'Libreta Civica', 'Pasaporte'];
+
+        // Validar que al menos un campo válido esté presente
+        const hasValidField = validFields.some(field => req.body[field] !== undefined);
+        if (!hasValidField) {
+            return res.status(400).json({ message: "Al menos uno de los campos 'dni', 'dniType', 'firstname', 'lastname', 'username' o 'password' es obligatorio" });
+        }
+
+        // Validar tipo de DNI
+        if (req.body.dniType && !validDniTypes.includes(req.body.dniType)) {
+            return res.status(400).json({ message: "Tipo de DNI inválido" });
+        }
+
+        // Validar DNI único (excepto en actualización del mismo registro)
+        if (req.body.dni) {
+            const existingMedicDni = await orm.em.findOne(Medic, { dni: req.body.dni, dniType: req.body.dniType });
+            if (existingMedicDni && existingMedicDni.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "Ya existe un médico con este DNI" });
+            }
+        }
+
+        // Validar nombre de usuario único (excepto en actualización del mismo registro)
+        if (req.body.username) {
+            const existingMedic = await orm.em.findOne(UserBase, { username: req.body.username });
+            if (existingMedic && existingMedic.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "El nombre de usuario ya está en uso" });
+            }
+        }
+
+        // Validar fortaleza de contraseña
+        if (req.body.password && req.body.password.length < 6) {
+            return res.status(400).json({ message: "La contraseña debe tener al menos 6 caracteres" });
+        }
+
+        // Validar especialidad si está presente
+        if (req.body.specialty) {
+            const specialty = await orm.em.findOne(Specialty, { id: req.body.specialty });
+            if (!specialty) {
+                return res.status(404).json({ message: "Especialidad no encontrada" });
+            }
+        }
+
+        next();
+    }
+
+    // Validaciones para actualizar HealthInsurance (permite que se actualicen solo algunos campos de una obra social existente)
+    static async validateUpdateHealthInsuranceInput(req: Request, res: Response, next: NextFunction) {
+        const validFields = ['name'];
+
+        // Validar que al menos un campo válido esté presente
+        const hasValidField = validFields.some(field => req.body[field] !== undefined);
+        if (!hasValidField) {
+            return res.status(400).json({ message: "Al menos uno de los campos 'name' es obligatorio" });
+        }
+
+        // Validar nombre único (excepto en actualización del mismo registro)
+        if (req.body.name) {
+            const existingHI = await orm.em.findOne(HealthInsurance, { name: req.body.name });
+            if (existingHI && existingHI.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "Ya existe una obra social con ese nombre" });
+            }
+        }
+
+        next();
+    }
+
+    // Validacion para secretary (igual que las otras) pero permite actualizar al menos un campo
+    static async validateUpdateSecretaryInput(req: Request, res: Response, next: NextFunction) {
+        const validFields = ['dni', 'dniType', 'firstname', 'lastname', 'mail', 'username', 'password', 'bornDate'];
+        const validDniTypes = ['DNI', 'Libreta Civica', 'Pasaporte'];
+
+        // Validar que al menos un campo válido esté presente
+        const hasValidField = validFields.some(field => req.body[field] !== undefined);
+        if (!hasValidField) {
+            return res.status(400).json({ message: "Al menos uno de los campos 'dni', 'dniType', 'firstname', 'lastname', 'mail', 'username' o 'password' es obligatorio" });
+        }
+
+        // Validar tipo de DNI
+        if (req.body.dniType && !validDniTypes.includes(req.body.dniType)) {
+            return res.status(400).json({ message: "Tipo de DNI inválido" });
+        }
+
+        // Validar formato de email
+        if (req.body.mail) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(req.body.mail)) {
+                return res.status(400).json({ message: "Formato de email inválido" });
+            }
+        }
+
+        // Validar que el conjunto dniType y dni sean únicos (excepto en actualización del mismo registro)
+        if (req.body.dni && req.body.dniType) {
+            const existingSecretaryDni = await orm.em.findOne(Secretary, { dni: req.body.dni, dniType: req.body.dniType });
+            if (existingSecretaryDni && existingSecretaryDni.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "Ya existe una secretaria con esta identificacion" });
+            }
+        }
+
+        // Validar que la fecha de nacimiento no sea en el futuro
+        if (req.body.bornDate && new Date(req.body.bornDate) > new Date()) {
+            return res.status(400).json({ message: "La fecha de nacimiento no puede ser en el futuro" });
+        }
+
+        // Validar username único
+        const existingSecretary = await orm.em.findOne(Secretary, { username: req.body.username });
+        if (existingSecretary && existingSecretary.id !== Number(req.params.id)) {
+            return res.status(400).json({ message: "El nombre de usuario ya está en uso" });
+        }
+
+        // Validar email único
+        const existingEmail = await orm.em.findOne(Secretary, { mail: req.body.mail });
+        if (existingEmail && existingEmail.id !== Number(req.params.id)) {
+            return res.status(400).json({ message: "El email ya está en uso" });
+        }
+
+        // Validar fortaleza de contraseña
+        if (req.body.password && req.body.password.length < 6) {
+            return res.status(400).json({ message: "La contraseña debe tener al menos 6 caracteres" });
+        }
+
+        // Validar formato de fecha de nacimiento si está presente
+        if (req.body.bornDate && isNaN(Date.parse(req.body.bornDate))) {
+            return res.status(400).json({ message: "Formato de fecha inválido (use YYYY-MM-DD)" });
+        }
+        next();
+    }
+
+    // Validaciones para ConsultationHours (igual que las otras) pero permite actualizar al menos un campo
+    static async validateUpdateConsultationHoursInput(req: Request, res: Response, next: NextFunction) {
+        const validFields = ['day', 'startTime', 'medic'];
+        const validDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+        const validstartTime = ["07:00", "07:15", "07:30", "07:45", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30",
+            "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00",
+            "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30",
+            "14:45", "15:00"];
+
+        // Validar que al menos un campo válido esté presente
+        const hasValidField = validFields.some(field => req.body[field] !== undefined);
+        if (!hasValidField) {
+            return res.status(400).json({ message: `Al menos uno de los campos 'day', 'startTime' o 'medic' es obligatorio` });
+        }
+
+        // Validar que el horario no exista para un mismo médico (excepto en actualización del mismo registro)
+        if (req.body.medic && req.body.day && req.body.startTime) {
+            const existingHours = await orm.em.findOne(ConsultationHours, { medic: req.body.medic, day: req.body.day, startTime: req.body.startTime });
+            if (existingHours && existingHours.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: `Ya existe un horario de consulta para este médico en este día y hora` });
+            }
+        }
+
+        //Validar que el medico exista
+        const medic = await orm.em.findOne(Medic, { id: req.body.medic });
+        if (!medic) {
+            return res.status(404).json({ message: "Médico no encontrado" });
+        }
+
+        if (!validstartTime.includes(req.body.startTime)) {
+            return res.status(400).json({ message: "Hora de inicio inválida" });
+        }
+
+        if (!validDays.includes(req.body.day)) {
+            return res.status(400).json({ message: "Día de la semana inválido" });
+        }
+
+        next();
+    }
+
+    // Validaciones para Patient (igual que las otras) pero permite actualizar al menos un campo
+    static async validateUpdatePatientInput(req: Request, res: Response, next: NextFunction) {
+        const validFields = ['dni', 'firstname', 'lastname', 'phoneNumber', 'address', 'email', 'birthDate', 'healthInsurance'];
+
+        // Validar que al menos un campo válido esté presente
+        const hasValidField = validFields.some(field => req.body[field] !== undefined);
+        if (!hasValidField) {
+            return res.status(400).json({ message: "Al menos uno de los campos 'dni', 'firstname', 'lastname', 'phoneNumber', 'address', 'email' o 'birthDate' es obligatorio" });
+        }
+
+        // Validar formato de email
+        if (req.body.email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(req.body.email)) {
+                return res.status(400).json({ message: "Formato de email inválido" });
+            }
+        }
+
+        // Validar formato de teléfono (ejemplo básico)
+        if (req.body.phoneNumber) {
+            const phoneRegex = /^[0-9]{10,15}$/;
+            if (!phoneRegex.test(req.body.phoneNumber)) {
+                return res.status(400).json({ message: "Formato de teléfono inválido (solo números, 10-15 dígitos)" });
+            }
+        }
+
+        // Validar formato de fecha de nacimiento
+        if (req.body.birthDate && isNaN(Date.parse(req.body.birthDate))) {
+            return res.status(400).json({ message: "Formato de fecha inválido (use YYYY-MM-DD)" });
+        }
+
+        // Validar que la fecha de nacimiento no sea en el futuro
+        if (req.body.birthDate && new Date(req.body.birthDate) > new Date()) {
+            return res.status(400).json({ message: "La fecha de nacimiento no puede ser en el futuro" });
+        }
+
+        // Validar DNI único (excepto en actualización del mismo registro)
+        if (req.body.dni) {
+            const existingPatient = await orm.em.findOne(Patient, { dni: req.body.dni });
+            if (existingPatient && existingPatient.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "Ya existe un paciente con este DNI" });
+            }
+        }
+
+        // Validar email único (excepto en actualización del mismo registro)
+        if (req.body.email) {
+            const existingEmail = await orm.em.findOne(Patient, { email: req.body.email });
+            if (existingEmail && existingEmail.id !== Number(req.params.id)) {
+                return res.status(400).json({ message: "El email ya está en uso" });
+            }
+        }
+
+        // Validar obra social si está presente
+        if (req.body.healthInsurance) {
+            const healthInsurance = await orm.em.findOne(HealthInsurance, { id: req.body.healthInsurance });
+            if (!healthInsurance) {
+                return res.status(404).json({ message: "Obra social no encontrada" });
+            }
+        }
+
+        next();
+    }
+
 }

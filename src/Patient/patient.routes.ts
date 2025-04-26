@@ -15,8 +15,8 @@ PatientRouter.get('/:patientId/attentions', validateRole('medic'), getAttentions
 
 PatientRouter.post('/',validateRole('both'), Validator.validatePatientInput,add)
 
-PatientRouter.put('/:id',validateRole('both'), Validator.validateIdParam, Validator.validatePatientInput, update)
+PatientRouter.put('/:id',validateRole('both'), Validator.validateIdParam, Validator.validateUpdatePatientInput, update)
 
-PatientRouter.patch('/:id',validateRole('both'), Validator.validateIdParam, Validator.validatePatientInput, update)
+PatientRouter.patch('/:id',validateRole('both'), Validator.validateIdParam, Validator.validateUpdatePatientInput, update)
 
 PatientRouter.delete('/:id',validateRole('secretary'), Validator.validateIdParam, remove)
