@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 })
 //antes de middlewares de negocio
 
-//routers PONER EN MINUSCULA Y -
+//TODO: routers PONER EN MINUSCULA Y -
 app.use('/api/Medics', MedicRouter)
 app.use('/api/Patients', PatientRouter)
 app.use('/api/Secretaries', SecretaryRouter)
