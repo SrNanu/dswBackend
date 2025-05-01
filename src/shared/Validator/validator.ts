@@ -13,14 +13,23 @@ import { UserBase } from "../../UserBase/userBase.entity.js";
 export class Validator {
     private constructor() {}
 
-    // Validacion de ID tipo number
-    static validateIdParam(req: Request, res: Response, next: NextFunction) {
-        const id = Number.parseInt(req.params.id);
-        if (isNaN(id)) {
-            return res.status(400).json({ message: "ID debe ser un número válido" });
-        }
-        next();
+// Validación de cualquier parámetro tipo number
+static validateIdParam(req: Request, res: Response, next: NextFunction) {
+    // Agarra el primer parámetro de la URL, no importa si se llama "id", "medicoId", etc.
+    const paramName = Object.keys(req.params)[0];
+
+    // Intenta convertir el valor de ese parámetro a número
+    const value = Number.parseInt(req.params[paramName]);
+
+    // Si no es un número válido, manda un error 400
+    if (isNaN(value)) {
+        return res.status(400).json({ message: "ID debe ser un número válido" });
     }
+
+    // Si es válido, pasa al siguiente controlador
+    next();
+}
+
 
     // Validaciones para Medic
     static async validateMedicInput(req: Request, res: Response, next: NextFunction) {
