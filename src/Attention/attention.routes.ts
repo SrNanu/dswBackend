@@ -16,8 +16,6 @@ export const AttentionRoutes = Router()
 // hay que ver bien cuales son para medico y cuales para secretaria
 AttentionRoutes.get('/', findAll) // ,validateRole('both')
 
-AttentionRoutes.get('/ByPatient/:patientId',validateRole('medic'), Validator.validateIdParam, findAllByID) // Tendria que estar en paciente/attention
-
 AttentionRoutes.get('/:id',validateRole('both'), Validator.validateIdParam, findOne)
 
 AttentionRoutes.post('/',validateRole('secretary'), Validator.validateAttentionInput, add)
