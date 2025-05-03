@@ -8,5 +8,5 @@ export const UserBaseRouter = Router()
 
 UserBaseRouter.post('/', login)
 
-UserBaseRouter.get('/:id', validateRole('secretary'), Validator.validateIdParam, findOne)
+UserBaseRouter.get('/:id', validateRole(['secretary']), Validator.validateIdParam, findOne)
 

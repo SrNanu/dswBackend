@@ -1,37 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const validateRole = (role: string) => {
+const validateRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const headerToken = req.headers['authorization'];
-    console.log('Validating token and role...');
+    console.log('Validando token y rol...');
 
     if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
       // Tiene token
       try {
-        const bearerToken = headerToken.slice(7);
+        const bearerToken = headerToken.slice(7); // Elimina 'Bearer ' del encabezado
         const secretKey = process.env.SECRET_KEY;
         
-        
-          // Verificar el token
-          const decoded: any = jwt.verify(bearerToken, 'Contraseña123');
-          // Validar si el rol coincide con el rol esperado
-          console.log('Role:', decoded.role);
-          if ((role === 'both' && ['secretary', 'medic'].includes(decoded.role)) || decoded.role === role)
-         {
-            next(); // El rol coincide, continuar
-          } else {
-            return res.status(403).json({ message: 'Acceso denegado: Rol insuficiente' });
-          }
+        // Verificar el token (decodificarlo)
+        const decoded: any = jwt.verify(bearerToken, secretKey || 'Contraseña123'); // Usar clave secreta
+        console.log('Rol del usuario:', decoded.role);
+
+        // Validar si el rol del usuario está dentro de los roles permitidos
+        if (roles.includes(decoded.role)) {
+          next(); // El rol está permitido, continuar
+        } else {
+          // Si el rol no está permitido
+          return res.status(403).json({ message: 'Acceso denegado: Rol insuficiente' });
+        }
         
       } catch (error: any) {
-
-        return res.status(401).json({ message: 'Invalid token' });
-        
+        // Si hay un error al verificar el token (ej. token inválido)
+        return res.status(401).json({ message: 'Token inválido' });
       }
     } else {
-
-      return res.status(403).json({ message: 'Acceso Denegado' });
+      // Si no hay token en la solicitud
+      return res.status(403).json({ message: 'Acceso denegado: Token faltante' });
     }
   };
 };
