@@ -101,7 +101,7 @@ async function obtenerFechasOcupadas(req: Request, res: Response) {
       Attention,
       {
         consultationHours: { $in: horariosIds },
-        dateCancelled: null // ← Esto se agregó para excluir las atenciones canceladas
+        dateCancelled: null // Esto se agregó para excluir las atenciones canceladas
       },
       { populate: ["consultationHours"] }
     );
@@ -134,7 +134,7 @@ async function getAttentionsByDate(req: Request, res: Response) {
       Attention,
       {
         date,
-        dateCancelled: null // ← Esto se agregó para excluir las atenciones canceladas
+        dateCancelled: null //Esto se agregó para excluir las atenciones canceladas
       },
       { populate: ["consultationHours"] }
     );
