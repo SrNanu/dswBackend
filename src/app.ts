@@ -43,6 +43,6 @@ app.use((_, res) => {
 /*await syncSchema() //never in production, only for development, when in production, the schema should be permanent*/
 
 //activar el servidor
-app.listen(37434, "yamanote.proxy.rlwy.net", () => {
+app.listen(3000, "yamanote.proxy.rlwy.net", () => {
   //console.log("Server running on http://localhost:3000/")
 })
