@@ -45,6 +45,6 @@ app.use((_, res) => {
 const PORT = Number(process.env.PORT || 3000)
 
 //activar el servidor
-app.listen(PORT, "dswbackend-production-163f.up.railway.app", () => {
+app.listen(PORT,() => {
   //console.log("Server running on http://localhost:3000/")
 })
