@@ -1,5 +1,4 @@
-
-import { MikroORM } from "@mikro-orm/mysql";
+import { MikroORM } from "@mikro-orm/postgresql";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 import { ReflectMetadataProvider } from "@mikro-orm/core";
 
@@ -12,60 +11,30 @@ import { ConsultationHours } from "../Medic/consultationHours.entity.js";
 import { HealthInsurance } from "../Patient/healthinsurance.entity.js";
 import { UserBase } from "../UserBase/userBase.entity.js";
 import { BaseEntity } from "../shared/baseEntity.entity.js";
-;
 
 export const orm = await MikroORM.init({
-
-    //Configuración para excluir validadores
-    metadataProvider: ReflectMetadataProvider,
-    discovery: {
-      requireEntitiesArray: true, // Obliga a usar lista manual
-      disableDynamicFileAccess: true, // Evita escaneo automático
-    },
-
-    entities: [
-        Secretary
-        , Patient
-        , Attention
-        , Medic
-        , Specialty
-        , ConsultationHours
-        , HealthInsurance
-        , UserBase
-        , BaseEntity
-    ],
-    
-    
-    dbName: 'pruebarailway',
-    
-    clientUrl: 'mysql://root:cVGGgGlojduAdhHfxlSosPdIsrXcLeLd@yamanote.proxy.rlwy.net:37434/railway',
-    
-    /*mysql://root:CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD@nozomi.proxy.rlwy.net:23946/railway
-    user: root
-    password: CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD
-    port: 23946
-    host: 'nozomi.proxy.rlwy.net'
-    */
-    highlighter: new SqlHighlighter(),
-    
-    debug: true,
-    
-    schemaGenerator: { //make sure to never use in production
-        disableForeignKeys: true,
-        createForeignKeyConstraints: true,
-        ignoreSchema:[],
-    },
-    
-})
-
-export const syncSchema = async () => {
-    const generator = orm.getSchemaGenerator()
-    
-    /*
-    //cuidado, solo deberia usarse en desarrollo, esto destruye la base de datos solo usar si falla updateSchema()
-    await generator.dropSchema()  
-    await generator.createSchema()
-    */
-
-    await generator.updateSchema()
-}
+  metadataProvider: ReflectMetadataProvider,
+  discovery: {
+    requireEntitiesArray: true,
+    disableDynamicFileAccess: true,
+  },
+  entities: [
+    Secretary,
+    Patient,
+    Attention,
+    Medic,
+    Specialty,
+    ConsultationHours,
+    HealthInsurance,
+    UserBase,
+    BaseEntity
+  ],
+  clientUrl: process.env.DATABASE_URL, // 👈 CAMBIO CLAVE
+  highlighter: new SqlHighlighter(),
+  debug: true,
+  schemaGenerator: {
+    disableForeignKeys: false,
+    createForeignKeyConstraints: true,
+    ignoreSchema: [],
+  },
+});
