@@ -38,8 +38,13 @@ export const orm = await MikroORM.init({
     
     dbName: 'medicsystemdb',
     
-    clientUrl: 'mysql://root:root@localhost:3306/medicsystemdb',
-   
+    clientUrl: 'mysql://root:CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD@nozomi.proxy.rlwy.net:23946/railway',
+    /*mysql://root:CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD@nozomi.proxy.rlwy.net:23946/railway
+    user: root
+    password: CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD
+    port: 23946
+    host: 'nozomi.proxy.rlwy.net'
+    */
     highlighter: new SqlHighlighter(),
     
     debug: true,
