@@ -12,6 +12,7 @@ import { HealthInsurance } from "../Patient/healthinsurance.entity.js";
 import { UserBase } from "../UserBase/userBase.entity.js";
 import { BaseEntity } from "../shared/baseEntity.entity.js";
 
+// Inicializa MikroORM
 export const orm = await MikroORM.init({
   metadataProvider: ReflectMetadataProvider,
   discovery: {
@@ -29,7 +30,7 @@ export const orm = await MikroORM.init({
     UserBase,
     BaseEntity
   ],
-  clientUrl: process.env.DATABASE_URL, // 👈 CAMBIO CLAVE
+  clientUrl: process.env.DATABASE_URL, // Asegúrate de que DATABASE_URL esté correctamente configurado en el entorno
   highlighter: new SqlHighlighter(),
   debug: true,
   schemaGenerator: {
@@ -38,3 +39,9 @@ export const orm = await MikroORM.init({
     ignoreSchema: [],
   },
 });
+
+// Función para sincronizar el esquema con la base de datos
+export const syncSchema = async () => {
+  const generator = orm.getSchemaGenerator();
+  await generator.updateSchema(); // Sincroniza el esquema con la base de datos
+};

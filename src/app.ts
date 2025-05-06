@@ -16,35 +16,37 @@ const app = express()
 
 app.use(express.json())
 
-//Cors
+// Configuración de CORS
 app.use(cors());
-//luego de los middelewares base (express, express json)
+
+// Middleware de contextos de MikroORM
 app.use((req, res, next) => {
   RequestContext.create(orm.em, next)
 })
-//antes de middlewares de negocio
 
-//TODO: routers PONER EN MINUSCULA Y -
+// Routers de las diferentes entidades
 app.use('/api/medics', MedicRouter)
 app.use('/api/patients', PatientRouter)
 app.use('/api/secretaries', SecretaryRouter)
-app.use('/api/specialties',SpecialtyRouter)
+app.use('/api/specialties', SpecialtyRouter)
 app.use('/api/consultation-hours', ConsultationHoursRouter)
 app.use('/api/attentions', AttentionRoutes)
 app.use('/api/health-insurances', HealthInsuranceRouter)
 app.use('/api/login', UserBaseRouter)
 
-
-//middleware de errores
+// Middleware de errores
 app.use((_, res) => {
   return res.status(404).send({ message: 'Resource not found' })
 })
 
-/*await syncSchema() //never in production, only for development, when in production, the schema should be permanent*/
+// Sincronización del esquema (solo en desarrollo)
+if (process.env.NODE_ENV === 'development') {
+  await syncSchema(); // Sincroniza el esquema solo en desarrollo
+}
 
 const PORT = Number(process.env.PORT || 3000)
 
-//activar el servidor
-app.listen(PORT,() => {
-  //console.log("Server running on http://localhost:3000/")
+// Activar el servidor
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}/`)
 })
