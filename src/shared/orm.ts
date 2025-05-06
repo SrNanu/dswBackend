@@ -39,6 +39,7 @@ export const orm = await MikroORM.init({
     dbName: 'medicsystemdb',
     
     clientUrl: 'mysql://root:CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD@nozomi.proxy.rlwy.net:23946/railway',
+    
     /*mysql://root:CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD@nozomi.proxy.rlwy.net:23946/railway
     user: root
     password: CtmQoJRVAGigLsWpStXJwfhPhSaCJfGD
