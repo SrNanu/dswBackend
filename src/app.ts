@@ -42,7 +42,9 @@ app.use((_, res) => {
 
 /*await syncSchema() //never in production, only for development, when in production, the schema should be permanent*/
 
+const PORT = Number(process.env.PORT || 3000)
+
 //activar el servidor
-app.listen(3000, "dswbackend-production-163f.up.railway.app", () => {
+app.listen(PORT, "dswbackend-production-163f.up.railway.app", () => {
   //console.log("Server running on http://localhost:3000/")
 })
