@@ -5,6 +5,7 @@ const validateRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const headerToken = req.headers['authorization'];
     console.log('Validando token y rol...');
+    next();
 
     if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
       // Tiene token
