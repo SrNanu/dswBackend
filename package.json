@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@mikro-orm/core": "6.3.0",
-    "@mikro-orm/postgresql": "^6.4.14",
-    "@mikro-orm/sql-highlighter": "1.0.1",
+    "@mikro-orm/postgresql": "6.3.0", 
+    "@mikro-orm/sql-highlighter": "6.3.0", 
     "@nestjs/common": "^10.4.8",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
